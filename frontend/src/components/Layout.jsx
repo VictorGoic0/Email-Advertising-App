@@ -28,8 +28,13 @@ export default function Layout({ children }) {
       <header className="bg-white border-b border-border shadow-sm">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center">
-              <h1 className="text-xl font-bold text-foreground">Email Advertising</h1>
+            <div className="flex items-center gap-3">
+              <img 
+                src="/logo.svg" 
+                alt="Email Advertising Generator" 
+                className="h-8 w-8"
+              />
+              <h1 className="text-xl font-bold text-foreground">Email Advertising Generator</h1>
             </div>
             
             <div className="flex items-center gap-4">
