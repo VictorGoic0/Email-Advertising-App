@@ -64,39 +64,39 @@
 **Branch**: `feature/auth-backend`
 
 ### Backend - Auth Router
-- [ ] 2.1 Create `/backend/routers` directory
-- [ ] 2.2 Create `/backend/routers/auth.py`
-- [ ] 2.3 Implement `POST /api/auth/login` endpoint
-- [ ] 2.4 Add Pydantic schema for login request (email, password)
-- [ ] 2.5 Add Pydantic schema for login response (user object)
-- [ ] 2.6 Query user by email from database
-- [ ] 2.7 Compare plain text password
-- [ ] 2.8 Return user object (id, email, full_name, role) on success
-- [ ] 2.9 Return 401 error with message for invalid credentials
-- [ ] 2.10 Register auth router in `main.py`
+- [x] 2.1 Create `/backend/routers` directory
+- [x] 2.2 Create `/backend/routers/auth.py`
+- [x] 2.3 Implement `POST /api/auth/login` endpoint
+- [x] 2.4 Add Pydantic schema for login request (email, password)
+- [x] 2.5 Add Pydantic schema for login response (user object)
+- [x] 2.6 Query user by email from database
+- [x] 2.7 Compare plain text password
+- [x] 2.8 Return user object (id, email, full_name, role) on success
+- [x] 2.9 Return 401 error with message for invalid credentials
+- [x] 2.10 Register auth router in `main.py`
 
 ### Backend - Auth Dependencies
-- [ ] 2.11 Create `/backend/dependencies.py`
-- [ ] 2.12 Implement `get_current_user` dependency function
-- [ ] 2.13 Extract X-User-ID from request headers
-- [ ] 2.14 Query user by ID from database
-- [ ] 2.15 Return 401 error if user not found
-- [ ] 2.16 Return User object if found
+- [x] 2.11 Create `/backend/dependencies.py`
+- [x] 2.12 Implement `get_current_user` dependency function
+- [x] 2.13 Extract X-User-ID from request headers
+- [x] 2.14 Query user by ID from database
+- [x] 2.15 Return 401 error if user not found
+- [x] 2.16 Return User object if found
 
 ### Backend - Schemas
-- [ ] 2.17 Create `/backend/schemas` directory
-- [ ] 2.18 Create `/backend/schemas/user.py`
-- [ ] 2.19 Define UserResponse Pydantic model
-- [ ] 2.20 Define LoginRequest Pydantic model
-- [ ] 2.21 Define LoginResponse Pydantic model
-- [ ] 2.22 Create `/backend/schemas/__init__.py`
+- [x] 2.17 Create `/backend/schemas` directory
+- [x] 2.18 Create `/backend/schemas/user.py`
+- [x] 2.19 Define UserResponse Pydantic model
+- [x] 2.20 Define LoginRequest Pydantic model
+- [x] 2.21 Define LoginResponse Pydantic model
+- [x] 2.22 Create `/backend/schemas/__init__.py`
 
 ### Testing & Documentation
-- [ ] 2.23 Test login endpoint with valid credentials via Swagger UI
-- [ ] 2.24 Test login endpoint with invalid credentials via Swagger UI
-- [ ] 2.25 Test get_current_user dependency with valid user ID
-- [ ] 2.26 Test get_current_user dependency with invalid user ID
-- [ ] 2.27 Document authentication flow in README
+- [x] 2.23 Test login endpoint with valid credentials via Swagger UI
+- [x] 2.24 Test login endpoint with invalid credentials via Swagger UI
+- [x] 2.25 Test get_current_user dependency with valid user ID
+- [x] 2.26 Test get_current_user dependency with invalid user ID
+- [x] 2.27 Document authentication flow in README
 
 ---
 

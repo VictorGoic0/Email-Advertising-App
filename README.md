@@ -174,12 +174,27 @@ Once the backend is running, visit:
 
 ## Authentication
 
-For MVP, authentication uses:
-- Plain text passwords (no hashing)
-- `X-User-ID` header for authenticated requests
-- Login endpoint: `POST /api/auth/login`
+### Authentication Flow
 
-**Note**: This is a simplified authentication system for MVP speed. Production should implement proper password hashing and JWT tokens.
+The system uses a simplified authentication mechanism for MVP speed:
+
+1. **Login**: `POST /api/auth/login`
+   - Request body: `{ "email": "user@example.com", "password": "password123" }`
+   - Response: `{ "user": { "id": "...", "email": "...", "full_name": "...", "role": "..." } }`
+   - Returns 401 if credentials are invalid
+
+2. **Authenticated Requests**: Include `X-User-ID` header
+   - Header: `X-User-ID: <user_id>`
+   - The `get_current_user` dependency validates the user ID and returns the User object
+   - Returns 401 if user ID is invalid or user not found
+
+### Implementation Details
+
+- **Plain text passwords**: No hashing for MVP (post-MVP: bcrypt/argon2)
+- **No JWT tokens**: User ID passed directly in header (post-MVP: JWT with refresh tokens)
+- **No session management**: Stateless API (post-MVP: session-based if needed)
+
+**Note**: This is a simplified authentication system for MVP speed. Production should implement proper password hashing, JWT tokens, and session management.
 
 ## Development Workflow
 
