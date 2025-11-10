@@ -147,12 +147,12 @@ npm run dev
 - `POST /api/auth/login` - User login ✅ (returns user object with id, email, full_name, role)
 
 **Assets**:
-- `POST /api/assets/upload` - Upload file
-- `GET /api/assets` - Get user's assets
-- `GET /api/assets/{id}` - Get asset details
-- `PATCH /api/assets/{id}/category` - Update category
-- `POST /api/assets/recategorize` - AI recategorization
-- `DELETE /api/assets/{id}` - Delete asset
+- `POST /api/assets/upload` - Upload file ✅
+- `GET /api/assets` - Get user's assets ✅
+- `GET /api/assets/{id}` - Get asset details ✅
+- `PATCH /api/assets/{id}/category` - Update category (PR #4)
+- `POST /api/assets/recategorize` - AI recategorization (PR #4)
+- `DELETE /api/assets/{id}` - Delete asset ✅
 
 **Campaigns**:
 - `POST /api/campaigns` - Create campaign

@@ -157,12 +157,12 @@
 - [x] 3.42 Register asset router in `main.py`
 
 ### Testing
-- [ ] 3.43 Test file upload with logo image via Swagger UI
-- [ ] 3.44 Test file upload with general image via Swagger UI
-- [ ] 3.45 Test file upload with text file via Swagger UI
-- [ ] 3.46 Verify S3 bucket contains uploaded files
-- [ ] 3.47 Test getting all assets for a user
-- [ ] 3.48 Test deleting an asset
+- [x] 3.43 Test file upload with logo image via Swagger UI
+- [x] 3.44 Test file upload with general image via Swagger UI
+- [x] 3.45 Test file upload with text file via Swagger UI
+- [x] 3.46 Verify S3 bucket contains uploaded files
+- [x] 3.47 Test getting all assets for a user
+- [x] 3.48 Test deleting an asset
 
 ---
 

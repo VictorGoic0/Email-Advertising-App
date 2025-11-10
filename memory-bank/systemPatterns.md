@@ -19,20 +19,20 @@ External services: AWS S3 (storage), OpenAI API (AI), MJML (email compilation)
 
 ### 1. Service Layer Pattern
 All external integrations and complex business logic live in `/backend/services/`:
-- `s3_service.py`: S3 file operations
-- `openai_service.py`: AI categorization and email generation
-- `mjml_service.py`: MJML compilation
-- `categorization_service.py`: Rules-based categorization
-- `health_service.py`: System health checks
+- `s3_service.py`: S3 file operations ✅ (upload, pre-signed URLs, deletion)
+- `categorization_service.py`: Rules-based categorization ✅ (logo, image, copy, url detection)
+- `openai_service.py`: AI categorization and email generation (PR #4)
+- `mjml_service.py`: MJML compilation (PR #6)
+- `health_service.py`: System health checks (PR #8)
 
 **Rationale**: Separates concerns, enables testing, allows swapping implementations.
 
 ### 2. Router-Based API Organization
 API endpoints organized by domain in `/backend/routers/`:
 - `auth.py`: Authentication endpoints ✅ (login endpoint implemented)
-- `asset.py`: Asset CRUD operations
-- `campaign.py`: Campaign management and email generation
-- `metrics.py`: Performance monitoring endpoints
+- `asset.py`: Asset CRUD operations ✅ (upload, get all, get one, delete)
+- `campaign.py`: Campaign management and email generation (PR #5-6)
+- `metrics.py`: Performance monitoring endpoints (PR #8)
 
 **Rationale**: Clear separation of concerns, easy to navigate, scales well.
 
@@ -69,15 +69,16 @@ API calls abstracted into reusable hooks:
 
 ## Data Flow Patterns
 
-### Asset Upload Flow
+### Asset Upload Flow ✅ Implemented
 ```
 User uploads file
   → Frontend sends multipart/form-data
-  → Backend receives file
-  → S3 Service uploads to S3
-  → Categorization Service categorizes (rules)
-  → Asset record created in DB
-  → Response with asset metadata
+  → Backend receives file (POST /api/assets/upload)
+  → S3 Service uploads to S3 (users/{user_id}/{filename})
+  → S3 Service generates pre-signed URL (7-day expiration)
+  → Categorization Service categorizes (rules: logo, image, copy, url, pending)
+  → Asset record created in DB with metadata
+  → Response with AssetResponse (201 Created)
   → Frontend displays asset card
 ```
 
