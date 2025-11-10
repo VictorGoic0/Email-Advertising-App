@@ -182,85 +182,85 @@
 **Branch**: `feature/frontend-setup`
 
 ### Frontend Project Setup
-- [ ] 10.1 Create Vite + React + TypeScript project in `/frontend`
-- [ ] 10.2 Install dependencies (react-router-dom, axios)
-- [ ] 10.3 Install and configure Tailwind CSS
-- [ ] 10.4 Initialize shadcn/ui
-- [ ] 10.5 Install shadcn components (button, card, input, form, label)
-- [ ] 10.6 Create `/frontend/.env` with VITE_API_URL
-- [ ] 10.7 Create `/frontend/.gitignore`
+- [x] 10.1 Create Vite + React + TypeScript project in `/frontend`
+- [x] 10.2 Install dependencies (react-router-dom, axios)
+- [x] 10.3 Install and configure Tailwind CSS
+- [x] 10.4 Initialize shadcn/ui
+- [x] 10.5 Install shadcn components (button, card, input, form, label)
+- [x] 10.6 Create `/frontend/.env` with VITE_API_URL
+- [x] 10.7 Create `/frontend/.gitignore`
 
 ### Frontend Folder Structure
-- [ ] 10.8 Create `/frontend/src/components` directory
-- [ ] 10.9 Create `/frontend/src/pages` directory
-- [ ] 10.10 Create `/frontend/src/lib` directory
-- [ ] 10.11 Create `/frontend/src/hooks` directory
-- [ ] 10.12 Create `/frontend/src/contexts` directory
-- [ ] 10.13 Create `/frontend/src/types` directory
+- [x] 10.8 Create `/frontend/src/components` directory
+- [x] 10.9 Create `/frontend/src/pages` directory
+- [x] 10.10 Create `/frontend/src/lib` directory
+- [x] 10.11 Create `/frontend/src/hooks` directory
+- [x] 10.12 Create `/frontend/src/contexts` directory
+- [x] 10.13 Create `/frontend/src/types` directory
 
 ### TypeScript Types
-- [ ] 10.14 Create `/frontend/src/types/index.ts`
-- [ ] 10.15 Define User interface
-- [ ] 10.16 Define Asset interface
-- [ ] 10.17 Define Campaign interface
-- [ ] 10.18 Define LoginRequest interface
-- [ ] 10.19 Define LoginResponse interface
+- [x] 10.14 Create `/frontend/src/types/index.d.ts` (IDE-only types)
+- [x] 10.15 Define User interface
+- [x] 10.16 Define Asset interface
+- [x] 10.17 Define Campaign interface
+- [x] 10.18 Define LoginRequest interface
+- [x] 10.19 Define LoginResponse interface
 
 ### Axios Setup
-- [ ] 10.20 Create `/frontend/src/lib/axios.ts`
-- [ ] 10.21 Create Axios instance with baseURL
-- [ ] 10.22 Add request interceptor for X-User-ID header
-- [ ] 10.23 Read user from localStorage in interceptor
-- [ ] 10.24 Add response interceptor for error handling
+- [x] 10.20 Create `/frontend/src/lib/axios.js`
+- [x] 10.21 Create Axios instance with baseURL
+- [x] 10.22 Add request interceptor for X-User-ID header
+- [x] 10.23 Read user from localStorage in interceptor
+- [x] 10.24 Add response interceptor for error handling
 
 ### Auth Context
-- [ ] 10.25 Create `/frontend/src/contexts/AuthContext.tsx`
-- [ ] 10.26 Define AuthContext interface
-- [ ] 10.27 Create AuthProvider component
-- [ ] 10.28 Implement user state with useState
-- [ ] 10.29 Implement login function (call API, store user)
-- [ ] 10.30 Implement logout function (clear localStorage)
-- [ ] 10.31 Restore user from localStorage on mount
-- [ ] 10.32 Export useAuth hook
+- [x] 10.25 Create `/frontend/src/contexts/AuthContext.jsx`
+- [x] 10.26 Define AuthContext interface
+- [x] 10.27 Create AuthProvider component
+- [x] 10.28 Implement user state with useState
+- [x] 10.29 Implement login function (call API, store user)
+- [x] 10.30 Implement logout function (clear localStorage)
+- [x] 10.31 Restore user from localStorage on mount
+- [x] 10.32 Export useAuth hook
 
 ### Login Page
-- [ ] 10.33 Create `/frontend/src/pages/Login.tsx`
-- [ ] 10.34 Build login form with shadcn components
-- [ ] 10.35 Add email and password input fields
-- [ ] 10.36 Add form validation with zod
-- [ ] 10.37 Handle form submission
-- [ ] 10.38 Call login function from AuthContext
-- [ ] 10.39 Show loading state during login
-- [ ] 10.40 Show error message for failed login
-- [ ] 10.41 Redirect to dashboard on success
-- [ ] 10.42 Style login page with Tailwind
+- [x] 10.33 Create `/frontend/src/pages/Login.jsx`
+- [x] 10.34 Build login form with shadcn components
+- [x] 10.35 Add email and password input fields
+- [x] 10.36 Add form validation with zod
+- [x] 10.37 Handle form submission
+- [x] 10.38 Call login function from AuthContext
+- [x] 10.39 Show loading state during login
+- [x] 10.40 Show error message for failed login
+- [x] 10.41 Redirect to dashboard on success
+- [x] 10.42 Style login page with Tailwind
 
 ### Protected Routes
-- [ ] 10.43 Create `/frontend/src/components/ProtectedRoute.tsx`
-- [ ] 10.44 Check if user is authenticated
-- [ ] 10.45 Redirect to /login if not authenticated
-- [ ] 10.46 Render children if authenticated
+- [x] 10.43 Create `/frontend/src/components/ProtectedRoute.jsx`
+- [x] 10.44 Check if user is authenticated
+- [x] 10.45 Redirect to /login if not authenticated
+- [x] 10.46 Render children if authenticated
 
 ### App Routing
-- [ ] 10.47 Update `/frontend/src/App.tsx`
-- [ ] 10.48 Wrap app with AuthProvider
-- [ ] 10.49 Set up React Router with BrowserRouter
-- [ ] 10.50 Add route for /login
-- [ ] 10.51 Add protected route wrapper
-- [ ] 10.52 Add placeholder route for dashboard
+- [x] 10.47 Update `/frontend/src/App.jsx`
+- [x] 10.48 Wrap app with AuthProvider
+- [x] 10.49 Set up React Router with BrowserRouter
+- [x] 10.50 Add route for /login
+- [x] 10.51 Add protected route wrapper
+- [x] 10.52 Add placeholder route for dashboard
 
 ### Layout Components
-- [ ] 10.53 Create `/frontend/src/components/Layout.tsx`
-- [ ] 10.54 Add header with user info and logout button
-- [ ] 10.55 Add sidebar navigation
-- [ ] 10.56 Style layout with Tailwind
+- [x] 10.53 Create `/frontend/src/components/Layout.jsx`
+- [x] 10.54 Add header with user info and logout button
+- [x] 10.55 Add sidebar navigation (header-based navigation for now)
+- [x] 10.56 Style layout with Tailwind
 
 ### Testing
-- [ ] 10.57 Test login flow with seed user credentials
-- [ ] 10.58 Verify localStorage stores user correctly
-- [ ] 10.59 Verify X-User-ID header is sent with requests
-- [ ] 10.60 Test logout clears user data
-- [ ] 10.61 Test protected route redirects when not authenticated
+- [x] 10.57 Test login flow with seed user credentials
+- [x] 10.58 Verify localStorage stores user correctly
+- [x] 10.59 Verify X-User-ID header is sent with requests
+- [x] 10.60 Test logout clears user data
+- [x] 10.61 Test protected route redirects when not authenticated
 
 ---
 
