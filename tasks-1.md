@@ -203,10 +203,10 @@
 - [x] 4.26 Return updated asset
 
 ### Testing
-- [ ] 4.27 Test AI recategorization with multiple assets
-- [ ] 4.28 Verify OpenAI API is called correctly
-- [ ] 4.29 Test manual category update
-- [ ] 4.30 Test error handling for invalid categories
+- [x] 4.27 Test AI recategorization with multiple assets
+- [x] 4.28 Verify OpenAI API is called correctly
+- [x] 4.29 Test manual category update
+- [x] 4.30 Test error handling for invalid categories
 
 ---
 
@@ -215,42 +215,42 @@
 **Branch**: `feature/campaigns-backend`
 
 ### Backend - Campaign Schemas
-- [ ] 5.1 Create `/backend/schemas/campaign.py`
-- [ ] 5.2 Define CampaignCreate Pydantic model
-- [ ] 5.3 Define CampaignResponse Pydantic model
-- [ ] 5.4 Define CampaignUpdate Pydantic model
-- [ ] 5.5 Define CampaignWithAssets response model
-- [ ] 5.6 Add status enum validation
+- [x] 5.1 Create `/backend/schemas/campaign.py`
+- [x] 5.2 Define CampaignCreate Pydantic model
+- [x] 5.3 Define CampaignResponse Pydantic model
+- [x] 5.4 Define CampaignUpdate Pydantic model
+- [x] 5.5 Define CampaignWithAssets response model
+- [x] 5.6 Add status enum validation
 
 ### Backend - Campaign Router
-- [ ] 5.7 Create `/backend/routers/campaign.py`
-- [ ] 5.8 Implement `POST /api/campaigns` endpoint
-- [ ] 5.9 Accept campaign details and asset IDs in request body
-- [ ] 5.10 Create campaign record with status "draft"
-- [ ] 5.11 Link assets to campaign via campaign_assets table
-- [ ] 5.12 Return created campaign with 201 status
-- [ ] 5.13 Add validation for required fields
+- [x] 5.7 Create `/backend/routers/campaign.py`
+- [x] 5.8 Implement `POST /api/campaigns` endpoint
+- [x] 5.9 Accept campaign details and asset IDs in request body
+- [x] 5.10 Create campaign record with status "draft"
+- [x] 5.11 Link assets to campaign via campaign_assets table
+- [x] 5.12 Return created campaign with 201 status
+- [x] 5.13 Add validation for required fields
 
 ### Backend - Campaign CRUD Operations
-- [ ] 5.14 Implement `GET /api/campaigns` endpoint
-- [ ] 5.15 Filter campaigns by user role (advertisers see own, managers see pending)
-- [ ] 5.16 Implement `GET /api/campaigns/{campaign_id}` endpoint
-- [ ] 5.17 Return campaign with linked assets
-- [ ] 5.18 Verify user has permission to view campaign
-- [ ] 5.19 Implement `PATCH /api/campaigns/{campaign_id}` endpoint
-- [ ] 5.20 Allow updating campaign details (name, audience, goal, notes)
-- [ ] 5.21 Verify campaign belongs to current user
-- [ ] 5.22 Implement `DELETE /api/campaigns/{campaign_id}` endpoint
-- [ ] 5.23 Delete campaign and cascade to campaign_assets
-- [ ] 5.24 Register campaign router in `main.py`
+- [x] 5.14 Implement `GET /api/campaigns` endpoint
+- [x] 5.15 Filter campaigns by user role (advertisers see own, managers see pending)
+- [x] 5.16 Implement `GET /api/campaigns/{campaign_id}` endpoint
+- [x] 5.17 Return campaign with linked assets
+- [x] 5.18 Verify user has permission to view campaign
+- [x] 5.19 Implement `PATCH /api/campaigns/{campaign_id}` endpoint
+- [x] 5.20 Allow updating campaign details (name, audience, goal, notes)
+- [x] 5.21 Verify campaign belongs to current user
+- [x] 5.22 Implement `DELETE /api/campaigns/{campaign_id}` endpoint
+- [x] 5.23 Delete campaign and cascade to campaign_assets
+- [x] 5.24 Register campaign router in `main.py`
 
 ### Backend - Database Queries
-- [ ] 5.25 Create `/backend/crud` directory
-- [ ] 5.26 Create `/backend/crud/campaign.py`
-- [ ] 5.27 Implement `get_campaigns_by_user` function
-- [ ] 5.28 Implement `get_campaigns_by_status` function
-- [ ] 5.29 Implement `get_campaign_with_assets` function
-- [ ] 5.30 Implement `link_assets_to_campaign` function
+- [x] 5.25 Create `/backend/crud` directory
+- [x] 5.26 Create `/backend/crud/campaign.py`
+- [x] 5.27 Implement `get_campaigns_by_user` function
+- [x] 5.28 Implement `get_campaigns_by_status` function
+- [x] 5.29 Implement `get_campaign_with_assets` function
+- [x] 5.30 Implement `link_assets_to_campaign` function
 
 ### Testing
 - [ ] 5.31 Test creating campaign with assets

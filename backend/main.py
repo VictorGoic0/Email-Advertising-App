@@ -1,17 +1,8 @@
 """Main FastAPI application entry point."""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import logging
-
 from config import settings
-from routers import auth, asset
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
-)
+from routers import auth, asset, campaign
 
 app = FastAPI(
     title="Email Advertising Workflow System API",
@@ -35,6 +26,7 @@ app.add_middleware(
 # Register routers
 app.include_router(auth.router)
 app.include_router(asset.router)
+app.include_router(campaign.router)
 
 
 @app.get("/health")

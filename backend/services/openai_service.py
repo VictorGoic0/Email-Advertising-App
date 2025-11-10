@@ -57,9 +57,6 @@ class OpenAIService:
         # Build prompt from prompts module
         prompt = build_categorization_prompt(assets)
         
-        logger.info(f"Starting AI categorization for {len(assets)} assets")
-        logger.debug(f"Input assets: {json.dumps(assets, indent=2)}")
-        
         try:
             # Call OpenAI API with system prompt from prompts module
             response = self.client.chat.completions.create(
@@ -80,10 +77,7 @@ class OpenAIService:
             
             # Parse JSON response
             response_text = response.choices[0].message.content
-            logger.info(f"OpenAI raw response: {response_text}")
-            
             result = json.loads(response_text)
-            logger.info(f"OpenAI parsed JSON: {json.dumps(result, indent=2)}")
             
             # Extract categorization mapping
             # Expected format: {"asset_id": "category", ...}
@@ -103,10 +97,8 @@ class OpenAIService:
                     categorization_map[asset_id] = category
                 else:
                     # Fallback to pending if invalid category
-                    logger.warning(f"Invalid category '{category}' for asset {asset_id}, defaulting to 'pending'")
                     categorization_map[asset_id] = "pending"
             
-            logger.info(f"Final categorization map: {json.dumps(categorization_map, indent=2)}")
             return categorization_map
             
         except json.JSONDecodeError as e:

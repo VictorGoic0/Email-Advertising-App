@@ -3,7 +3,6 @@ from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from pydantic import BaseModel, Field, field_validator
-import logging
 
 from database import get_db
 from dependencies import get_current_user
@@ -13,8 +12,6 @@ from schemas.asset import AssetResponse, AssetUpdate
 from services.s3_service import s3_service
 from services.categorization_service import categorize_asset
 from services.openai_service import openai_service
-
-logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/assets", tags=["assets"])
 
@@ -256,25 +253,16 @@ async def recategorize_assets(
             for asset in assets
         ]
         
-        logger.info(f"Recategorizing {len(assets_metadata)} assets for user {current_user.id}")
-        logger.debug(f"Asset metadata sent to OpenAI: {assets_metadata}")
-        
         # Call OpenAI service to recategorize
         categorization_map = openai_service.categorize_assets(assets_metadata)
-        
-        logger.info(f"Received categorization map from OpenAI service: {categorization_map}")
         
         # Update assets in database
         updated_assets = []
         for asset in assets:
             if asset.id in categorization_map:
-                old_category = asset.category
                 asset.category = categorization_map[asset.id]
                 asset.categorization_method = "ai"
-                logger.info(f"Asset {asset.id} ({asset.filename}): {old_category} -> {asset.category}")
                 updated_assets.append(asset)
-            else:
-                logger.warning(f"Asset {asset.id} ({asset.filename}) not found in categorization map")
         
         db.commit()
         
@@ -282,7 +270,6 @@ async def recategorize_assets(
         for asset in updated_assets:
             db.refresh(asset)
         
-        logger.info(f"Successfully recategorized {len(updated_assets)} assets")
         return updated_assets
         
     except Exception as e:

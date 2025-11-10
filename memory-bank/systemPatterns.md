@@ -21,17 +21,22 @@ External services: AWS S3 (storage), OpenAI API (AI), MJML (email compilation)
 All external integrations and complex business logic live in `/backend/services/`:
 - `s3_service.py`: S3 file operations ✅ (upload, pre-signed URLs, deletion)
 - `categorization_service.py`: Rules-based categorization ✅ (logo, image, copy, url detection)
-- `openai_service.py`: AI categorization and email generation (PR #4)
+- `openai_service.py`: AI categorization and email generation ✅ (GPT-3.5-turbo for categorization, GPT-4 for email generation)
 - `mjml_service.py`: MJML compilation (PR #6)
 - `health_service.py`: System health checks (PR #8)
+
+**Prompts Module**: Structured prompts live in `/backend/prompts/`:
+- `asset_categorization.py`: Comprehensive categorization prompt with core principles, category definitions, guidelines
+- `email_generation.py`: Detailed email generation prompt with MJML best practices, design standards, content strategy
+- Follows structured format: Core Principles → Guidelines → Output Format
 
 **Rationale**: Separates concerns, enables testing, allows swapping implementations.
 
 ### 2. Router-Based API Organization
 API endpoints organized by domain in `/backend/routers/`:
 - `auth.py`: Authentication endpoints ✅ (login endpoint implemented)
-- `asset.py`: Asset CRUD operations ✅ (upload, get all, get one, delete)
-- `campaign.py`: Campaign management and email generation (PR #5-6)
+- `asset.py`: Asset CRUD operations ✅ (upload, get all, get one, delete, recategorize, manual category update)
+- `campaign.py`: Campaign management ✅ (create, get all, get one, update, delete with role-based filtering)
 - `metrics.py`: Performance monitoring endpoints (PR #8)
 
 **Rationale**: Clear separation of concerns, easy to navigate, scales well.
