@@ -59,49 +59,49 @@
 **Branch**: `feature/email-preview-ui`
 
 ### Email Generation Hook
-- [ ] 13.1 Add generateProof function to useCampaigns hook
-- [ ] 13.2 Call generate-proof API endpoint
-- [ ] 13.3 Handle loading state during generation
-- [ ] 13.4 Handle errors from API
-- [ ] 13.5 Return MJML, HTML, and generation time
+- [x] 13.1 Add generateProof function to useCampaigns hook
+- [x] 13.2 Call generate-proof API endpoint
+- [x] 13.3 Handle loading state during generation
+- [x] 13.4 Handle errors from API
+- [x] 13.5 Return MJML, HTML, and generation time
 
 ### Email Preview Component
-- [ ] 13.6 Create `/frontend/src/components/EmailPreview.tsx`
-- [ ] 13.7 Accept emailHtml prop
-- [ ] 13.8 Create iframe to render email HTML
-- [ ] 13.9 Use srcDoc attribute for iframe content
-- [ ] 13.10 Apply sandbox attribute for security
-- [ ] 13.11 Add device view toggle (desktop/mobile)
-- [ ] 13.12 Style iframe container for desktop view
-- [ ] 13.13 Style iframe container for mobile view
-- [ ] 13.14 Add CSS for responsive iframe sizing
+- [x] 13.6 Create `/frontend/src/components/EmailPreview.jsx`
+- [x] 13.7 Accept emailHtml prop
+- [x] 13.8 Create iframe to render email HTML
+- [x] 13.9 Use srcDoc attribute for iframe content
+- [x] 13.10 Apply sandbox attribute for security
+- [x] 13.11 Add device view toggle (desktop/mobile)
+- [x] 13.12 Style iframe container for desktop view
+- [x] 13.13 Style iframe container for mobile view
+- [x] 13.14 Add CSS for responsive iframe sizing
 
 ### Email Preview Page
-- [ ] 13.15 Create `/frontend/src/pages/EmailPreviewPage.tsx`
-- [ ] 13.16 Fetch campaign details by ID
-- [ ] 13.17 Add "Generate Email Proof" button
-- [ ] 13.18 Show loading spinner during generation
-- [ ] 13.19 Display generation time after completion
-- [ ] 13.20 Integrate EmailPreview component
-- [ ] 13.21 Add "Regenerate" button
-- [ ] 13.22 Add "Submit for Approval" button
-- [ ] 13.23 Add "Save as Draft" button
-- [ ] 13.24 Implement submit for approval API call
-- [ ] 13.25 Show success message after submission
-- [ ] 13.26 Redirect to My Campaigns after submission
+- [x] 13.15 Create `/frontend/src/pages/EmailPreviewPage.tsx`
+- [x] 13.16 Fetch campaign details by ID
+- [x] 13.17 Add "Generate Email Proof" button
+- [x] 13.18 Show loading spinner during generation
+- [x] 13.19 Display generation time after completion
+- [x] 13.20 Integrate EmailPreview component
+- [x] 13.21 Add "Regenerate" button
+- [x] 13.22 Add "Submit for Approval" button
+- [x] 13.23 Add "Save as Draft" button
+- [x] 13.24 Implement submit for approval API call
+- [x] 13.25 Show success message after submission
+- [x] 13.26 Redirect to My Campaigns after submission
 
 ### Preview Controls
-- [ ] 13.27 Create preview toolbar component
-- [ ] 13.28 Add desktop/mobile toggle buttons
-- [ ] 13.29 Add zoom controls (optional)
-- [ ] 13.30 Style toolbar with Tailwind
+- [x] 13.27 Create preview toolbar component
+- [x] 13.28 Add desktop/mobile toggle buttons
+- [x] 13.29 Add zoom controls (optional)
+- [x] 13.30 Style toolbar with Tailwind
 
 ### Testing
-- [ ] 13.31 Test email proof generation
-- [ ] 13.32 Verify email renders in iframe correctly
-- [ ] 13.33 Test device view toggle
-- [ ] 13.34 Test regenerate functionality
-- [ ] 13.35 Test submit for approval
+- [x] 13.31 Test email proof generation
+- [x] 13.32 Verify email renders in iframe correctly
+- [x] 13.33 Test device view toggle
+- [x] 13.34 Test regenerate functionality
+- [x] 13.35 Test submit for approval
 
 ---
 

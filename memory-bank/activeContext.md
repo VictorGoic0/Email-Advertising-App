@@ -3,10 +3,79 @@
 ## Current Status
 
 **Phase**: Frontend Development  
-**Date**: PR #11 Complete  
-**Focus**: Campaign creation UI (PR #12)
+**Date**: PR #13 Complete  
+**Focus**: Approval queue UI (PR #14)
 
 ## Recent Changes
+
+- ✅ **PR #13 Complete**: Email preview & generation UI
+  - Added `generateProof` function to `useCampaigns` hook (`/frontend/src/hooks/useCampaigns.js`)
+    - Calls `/campaigns/{campaign_id}/generate-proof` endpoint
+    - Handles loading state with `generatingProof` and errors with `proofError`
+    - Returns MJML, HTML, and generation time
+    - Updates campaign state with generated content
+  - Added `submitCampaign` function to `useCampaigns` hook
+    - Calls `/campaigns/{campaign_id}/submit` endpoint
+    - Updates campaign status to "pending_approval"
+    - Handles errors and updates campaign state
+  - Created `EmailPreview` component (`/frontend/src/components/EmailPreview.jsx`)
+    - Accepts `emailHtml` prop
+    - Renders email in iframe using `srcDoc` attribute
+    - Applies `sandbox="allow-same-origin"` for security
+    - Device view toggle (desktop/mobile) with toolbar
+    - Responsive styling for both desktop and mobile views
+    - Browser-style header for visual context
+  - Updated `EmailPreviewPage` (`/frontend/src/pages/EmailPreviewPage.jsx`)
+    - Fetches campaign details by ID
+    - "Generate Email Proof" button with loading state
+    - Loading spinner during generation
+    - Displays generation time after completion
+    - Integrated EmailPreview component
+    - "Regenerate" button
+    - "Submit for Approval" button with API call
+    - "Save as Draft" button
+    - Success handling and redirect to My Campaigns
+    - Error handling for all operations
+    - Status-based button enabling/disabling
+  - Preview toolbar integrated into EmailPreview component
+    - Desktop/mobile toggle buttons with icons (Monitor, Smartphone from lucide-react)
+    - Styled with Tailwind CSS
+  - All tasks complete (13.1-13.35), ready for testing
+
+- ✅ **PR #12 Complete**: Campaign creation UI
+  - Created `CampaignForm` component (`/frontend/src/components/CampaignForm.jsx`)
+    - Form with zod validation for campaign name (required), target audience, campaign goal, additional notes
+    - Uses shadcn components (Card, Input, Textarea, Label, Button)
+    - Loading states and error handling
+  - Created `useCampaigns` hook (`/frontend/src/hooks/useCampaigns.js`)
+    - Full CRUD operations: createCampaign, fetchCampaigns, fetchCampaign, updateCampaign, deleteCampaign
+    - Loading and error state management
+  - Created `CreateCampaign` page (`/frontend/src/pages/CreateCampaign.jsx`)
+    - Two-step workflow: Select Assets → Campaign Details
+    - Step navigation with progress indicator
+    - Asset selection with controlled state (no upload functionality - only selection)
+    - Form submission with asset IDs
+    - Redirects to email preview on success
+  - Created `CampaignList` component (`/frontend/src/components/CampaignList.jsx`)
+    - Displays campaigns in responsive card grid
+    - Status badges (draft, pending_approval, approved, rejected) with color coding
+    - Click to view campaign details
+    - Loading and error states
+    - Empty state handling
+  - Created `MyCampaigns` page (`/frontend/src/pages/MyCampaigns.jsx`)
+    - Status filtering tabs (All, Draft, Pending Approval, Approved, Rejected)
+    - "Create New Campaign" button
+    - Integrates CampaignList component
+  - Created `Textarea` component (`/frontend/src/components/ui/textarea.jsx`)
+    - shadcn-style textarea component
+  - Updated `AssetReview` component to support controlled selection mode
+  - Updated `AssetUploadPage` to add "Create Campaign" button in organize step
+  - Updated `Layout` component: logo/title now clickable and links to dashboard
+  - Updated `Dashboard` component: removed redundant logout button, added campaign navigation links
+  - Added routes: `/campaigns`, `/campaigns/new`, `/campaigns/:id` (email preview placeholder)
+  - Created placeholder `EmailPreviewPage` for PR #13
+  - All tasks complete (12.1-12.38), tested and working
+  - S3 CORS configuration: Created `s3-cors.json` config file and deployment scripts
 
 - ✅ **PR #11 Complete**: Asset upload UI
   - Created `useAssets` hook (`/frontend/src/hooks/useAssets.js`) with full CRUD operations
@@ -207,16 +276,15 @@
 
 ## Next Steps
 
-### Immediate (PR #12)
-1. **PR #12**: Campaign creation UI
-   - Campaign form component
-   - Campaign list view
-   - Asset selection for campaigns
+### Immediate (PR #14)
+1. **PR #14**: Approval queue UI
+   - Approval queue component
+   - Campaign review component
+   - Rejection modal
+   - Role-based access
 
-### Long-term (PR #9, #13-17)
+### Long-term (PR #9, #15-17)
 9. **PR #9**: Backend testing (deferred)
-13. **PR #13**: Email preview & generation UI
-14. **PR #14**: Approval queue UI
 15. **PR #15**: Performance monitoring UI
 16. **PR #16**: Role-based dashboard & navigation
 17. **PR #17**: UI polish & final touches
@@ -233,6 +301,20 @@
 ### Pending Decisions
 1. **Deployment timeline**: Post-MVP, but need to plan
 
+### Decisions for PR #16 (Role-Based Dashboard & Navigation)
+1. **Campaign Visibility for Managers** (to be implemented in PR #16):
+   - **Approval Queue** (`/approval-queue`): Managers see ONLY `pending_approval` campaigns (active workflow)
+   - **View Campaigns** (`/campaigns`): Managers see ALL campaigns across all statuses (audit/visibility)
+   - **Rationale**: Approval queue is for active work, View Campaigns provides transparency and traceability
+   - **Frontend Impact**: 
+     - MyCampaigns page needs role-based logic
+     - For managers: Show all campaigns with advertiser info, status filtering
+     - For advertisers: Show only their own campaigns (current behavior)
+   - **Backend Changes Needed**:
+     - `GET /api/campaigns`: Return all campaigns for managers (not just pending_approval)
+     - `GET /api/campaigns/{campaign_id}`: Update permission checks to allow managers to view all campaigns
+   - **Note**: Only advertisers can CREATE campaigns (no change needed)
+
 ## Current Work Focus
 
 **Primary Goal**: Frontend development
@@ -247,7 +329,9 @@
 - Backend testing (PR #9) - deferred
 - Frontend setup & authentication (PR #10) - complete ✅
 - Asset upload UI (PR #11) - complete ✅
-- Campaign creation UI (PR #12) - next
+- Campaign creation UI (PR #12) - complete ✅
+- Email preview & generation UI (PR #13) - complete ✅
+- Approval queue UI (PR #14) - next
 
 ## Blockers & Risks
 
