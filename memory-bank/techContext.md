@@ -75,7 +75,9 @@ VITE_API_URL=http://localhost:8000/api
 - `mjml`
 - `python-multipart` (file uploads)
 - `pydantic`
+- `pydantic-settings`
 - `tenacity` (retry logic)
+- `email-validator` (for EmailStr validation)
 
 ### Frontend Dependencies
 - `react`: 18+
@@ -142,7 +144,7 @@ npm run dev
 ### Core Endpoints
 
 **Authentication**:
-- `POST /api/auth/login` - User login
+- `POST /api/auth/login` - User login ✅ (returns user object with id, email, full_name, role)
 
 **Assets**:
 - `POST /api/assets/upload` - Upload file

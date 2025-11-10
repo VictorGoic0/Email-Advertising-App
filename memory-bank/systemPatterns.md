@@ -29,7 +29,7 @@ All external integrations and complex business logic live in `/backend/services/
 
 ### 2. Router-Based API Organization
 API endpoints organized by domain in `/backend/routers/`:
-- `auth.py`: Authentication endpoints
+- `auth.py`: Authentication endpoints ✅ (login endpoint implemented)
 - `asset.py`: Asset CRUD operations
 - `campaign.py`: Campaign management and email generation
 - `metrics.py`: Performance monitoring endpoints
@@ -39,9 +39,15 @@ API endpoints organized by domain in `/backend/routers/`:
 ### 3. Dependency Injection (FastAPI)
 User authentication handled via FastAPI dependencies:
 ```python
-async def get_current_user(user_id: str = Header(alias="X-User-ID")) -> User:
+async def get_current_user(
+    x_user_id: str = Header(alias="X-User-ID"),
+    db: Session = Depends(get_db)
+) -> User:
     # Extract user from header, query database, return User object
+    # Returns 401 if user not found
 ```
+
+**Implementation**: Located in `/backend/dependencies.py`, used in protected endpoints.
 
 **Rationale**: Reusable, testable, follows FastAPI best practices.
 

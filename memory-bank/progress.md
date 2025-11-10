@@ -15,13 +15,17 @@
   - Seed data script created
   - CORS middleware configured
   - Health endpoint working
+- ✅ **PR #2: Authentication System (Backend)**
+  - Auth router with login endpoint (`POST /api/auth/login`)
+  - User dependency injection (`get_current_user` in `/backend/dependencies.py`)
+  - Pydantic schemas (UserResponse, LoginRequest, LoginResponse)
+  - Authentication flow tested and documented
 
 ### In Progress
-- 🔄 Authentication system (PR #2) - ready to start
+- 🔄 Asset upload & S3 integration (PR #3) - ready to start
 
 ### Not Started
 - ⏳ Frontend setup
-- ⏳ Authentication implementation
 - ⏳ Asset upload
 - ⏳ Campaign management
 - ⏳ Email generation
@@ -45,12 +49,14 @@
 - ✅ Health endpoint
 
 ### PR #2: Authentication System (Backend)
-**Status**: Not Started  
-**Tasks**: 27 tasks  
+**Status**: ✅ Complete (27/27 tasks)  
+**Tasks**: 27 tasks (all complete)  
 **Key Deliverables**:
-- Login endpoint
-- User dependency injection
-- Pydantic schemas
+- ✅ Login endpoint (`POST /api/auth/login`)
+- ✅ User dependency injection (`get_current_user`)
+- ✅ Pydantic schemas (UserResponse, LoginRequest, LoginResponse)
+- ✅ Auth router registered in main.py
+- ✅ Authentication flow tested and documented
 
 ### PR #3: Asset Upload & S3 Integration (Backend)
 **Status**: Not Started  
@@ -215,12 +221,14 @@
 
 ## Current Status Summary
 
-**Overall Progress**: ~6% (PR #1 complete, 1/17 PRs done)
+**Overall Progress**: ~12% (PR #1-2 complete, 2/17 PRs done)
 
-**Backend**: ~15% complete
+**Backend**: ~25% complete
 - Models: 6/6 tables ✅
-- Routers: 0/4 routers
+- Routers: 1/4 routers ✅ (auth router complete)
 - Services: 0/5 services
+- Dependencies: 1/1 ✅ (get_current_user)
+- Schemas: 1/1 ✅ (user schemas)
 - Tests: 0/5 test files
 - Database: ✅ Setup complete
 
@@ -279,9 +287,10 @@
 1. ✅ Complete project structure setup
 2. ✅ Initialize backend (FastAPI, dependencies, models)
 3. ✅ Set up database (migrations, seed data)
-4. **Next**: Begin PR #2 - Authentication system (backend)
-   - Create auth router with login endpoint
-   - Create user dependency injection
-   - Create Pydantic schemas
-   - Test authentication flow
+4. ✅ Complete PR #2 - Authentication system (backend)
+5. **Next**: Begin PR #3 - Asset upload & S3 integration (backend)
+   - Create S3 service for file uploads
+   - Create categorization service (rules-based)
+   - Create asset router with CRUD endpoints
+   - Test S3 integration
 
