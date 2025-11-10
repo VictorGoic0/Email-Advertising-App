@@ -3,10 +3,62 @@
 ## Current Status
 
 **Phase**: Backend Development  
-**Date**: PR #6 Complete  
-**Focus**: Approval workflow (PR #7)
+**Date**: PR #8 Complete  
+**Focus**: Backend testing (PR #9)
 
 ## Recent Changes
+
+- ✅ **PR #8 Complete**: Performance monitoring dashboard (backend)
+  - Created `/backend/services/health_service.py` with health check functions:
+    - `check_api_health()` - Checks API health via database connectivity
+    - `check_s3_health()` - Checks S3 service by listing bucket contents
+    - `check_database_health()` - Checks database with simple query
+    - `check_openai_health()` - Checks OpenAI API connectivity
+    - `perform_all_health_checks()` - Runs all checks and records results
+  - Created `/backend/routers/metrics.py` with metrics endpoints:
+    - `GET /api/metrics/uptime` - Returns uptime metrics for components (api, s3, database, openai) over last 24 hours
+    - `GET /api/metrics/proof-generation` - Returns proof generation performance metrics (average, P50, P95, P99)
+    - `GET /api/metrics/queue-depth` - Returns current approval queue depth
+    - `GET /api/metrics/approval-rate` - Returns approval rate metrics with breakdown (accepts days parameter)
+    - All endpoints require `tech_support` role
+  - Created `/backend/schemas/metrics.py` with response schemas:
+    - `UptimeMetricsResponse`, `ProofGenerationMetricsResponse`, `QueueDepthMetricsResponse`, `ApprovalRateMetricsResponse`
+  - Created `/scripts/health_check_worker.py` for background health checks:
+    - Runs health checks every 5 minutes
+    - Records results in `system_health` table
+    - Includes error handling and logging
+  - Registered metrics router in `main.py`
+  - All implementation tasks complete (8.1-8.32), testing deferred until PR #9
+
+- ✅ **PR #7 Complete**: Approval workflow (backend)
+  - Added `POST /api/campaigns/{campaign_id}/submit` endpoint
+    - Verifies user is advertiser
+    - Verifies campaign belongs to current user
+    - Verifies campaign has generated email (both HTML and MJML)
+    - Updates campaign status to "pending_approval"
+    - Updates `updated_at` timestamp
+  - Added `GET /api/campaigns/approval-queue` endpoint
+    - Verifies user is campaign_manager
+    - Queries campaigns with status "pending_approval"
+    - Sorts by created_at (oldest first)
+  - Added `POST /api/campaigns/{campaign_id}/approve` endpoint
+    - Verifies user is campaign_manager
+    - Updates status to "approved"
+    - Sets reviewed_by and reviewed_at
+    - Records approval metric
+  - Added `POST /api/campaigns/{campaign_id}/reject` endpoint
+    - Verifies user is campaign_manager
+    - Accepts rejection_reason in request body (RejectionRequest schema)
+    - Validates rejection_reason is not empty
+    - Updates status to "rejected"
+    - Sets reviewed_by, reviewed_at, and rejection_reason
+    - Records rejection metric
+  - Added metrics helper functions in `crud/metrics.py`:
+    - `get_queue_depth()` - Calculate current approval queue depth
+    - `calculate_approval_rate()` - Calculate approval rate over time period
+    - `calculate_time_to_approval()` - Calculate average time to approval
+  - Created `RejectionRequest` and `SuccessMessage` schemas
+  - All implementation tasks complete (7.1-7.34), testing deferred until PR #9
 
 - ✅ **PR #6 Complete**: Email proof generation with AI (backend)
   - Created `/backend/services/mjml_service.py` with `compile_mjml_to_html` function
@@ -97,17 +149,11 @@
 
 ## Next Steps
 
-### Immediate (PR #7)
-1. **PR #7**: Approval workflow (backend)
-   - Campaign submission endpoint
-   - Approval queue endpoint
-   - Approve/reject endpoints
-   - Metrics tracking
-
-### Medium-term (PR #8-9)
-5. **PR #8**: Performance monitoring dashboard (backend)
-6. **PR #8**: Performance monitoring dashboard (backend)
-7. **PR #9**: Backend testing
+### Immediate (PR #9)
+1. **PR #9**: Backend testing
+   - Pytest setup with fixtures
+   - Tests for all routers (auth, asset, campaign, metrics)
+   - Test critical paths and role-based access control
 
 ### Long-term (PR #10-17)
 10. **PR #10**: Frontend setup & authentication
@@ -133,14 +179,16 @@
 
 ## Current Work Focus
 
-**Primary Goal**: Implement approval workflow system
+**Primary Goal**: Backend testing and quality assurance
 - PR #1 foundation complete ✅
 - Authentication backend (PR #2) - complete ✅
 - Asset upload system (PR #3) - complete ✅
 - AI recategorization (PR #4) - complete ✅
 - Campaign management (PR #5) - complete ✅
 - Email proof generation (PR #6) - complete ✅
-- Approval workflow (PR #7) - next
+- Approval workflow (PR #7) - complete ✅
+- Performance monitoring (PR #8) - complete ✅
+- Backend testing (PR #9) - next
 
 ## Blockers & Risks
 

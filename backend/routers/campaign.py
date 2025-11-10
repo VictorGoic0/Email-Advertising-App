@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+from datetime import datetime
 import time
 
 from database import get_db
@@ -16,6 +17,8 @@ from schemas.campaign import (
     CampaignWithAssets,
     CampaignStatus,
     ProofGenerationResponse,
+    RejectionRequest,
+    SuccessMessage,
 )
 from crud.campaign import (
     get_campaigns_by_user,
@@ -426,5 +429,264 @@ async def generate_proof(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to generate email proof: {str(e)}"
+        )
+
+
+@router.post("/{campaign_id}/submit", response_model=SuccessMessage)
+async def submit_campaign(
+    campaign_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Submit a campaign for approval.
+    
+    Only advertisers can submit campaigns.
+    Campaign must belong to the current user.
+    Campaign must have a generated email.
+    
+    Args:
+        campaign_id: ID of the campaign to submit
+        current_user: Current authenticated user
+        db: Database session
+        
+    Returns:
+        SuccessMessage: Success message
+        
+    Raises:
+        HTTPException: 403 if user is not advertiser or doesn't own campaign, 400 if campaign has no generated email
+    """
+    # Verify user is advertiser
+    if current_user.role != "advertiser":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only advertisers can submit campaigns"
+        )
+    
+    # Fetch campaign
+    campaign = db.query(Campaign).filter(Campaign.id == campaign_id).first()
+    
+    if not campaign:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Campaign not found"
+        )
+    
+    # Verify campaign belongs to current user
+    if campaign.advertiser_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have permission to submit this campaign"
+        )
+    
+    # Verify campaign has generated email
+    if not campaign.generated_email_html or not campaign.generated_email_mjml:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Campaign must have a generated email before submission"
+        )
+    
+    try:
+        # Update campaign status to pending_approval
+        campaign.status = CampaignStatus.PENDING_APPROVAL.value
+        campaign.updated_at = datetime.now()
+        
+        db.commit()
+        
+        return SuccessMessage(message="Campaign submitted for approval")
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to submit campaign: {str(e)}"
+        )
+
+
+@router.get("/approval-queue", response_model=List[CampaignResponse])
+async def get_approval_queue(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Get approval queue for campaign managers.
+    
+    Returns all campaigns with status "pending_approval", sorted by created_at (oldest first).
+    
+    Args:
+        current_user: Current authenticated user
+        db: Database session
+        
+    Returns:
+        List of CampaignResponse objects sorted by created_at
+        
+    Raises:
+        HTTPException: 403 if user is not campaign_manager
+    """
+    # Verify user is campaign_manager
+    if current_user.role != "campaign_manager":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only campaign managers can access the approval queue"
+        )
+    
+    # Query campaigns with status "pending_approval"
+    campaigns = get_campaigns_by_status(db, CampaignStatus.PENDING_APPROVAL.value)
+    
+    # Sort by created_at (oldest first)
+    campaigns.sort(key=lambda c: c.created_at)
+    
+    return campaigns
+
+
+@router.post("/{campaign_id}/approve", response_model=SuccessMessage)
+async def approve_campaign(
+    campaign_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Approve a campaign.
+    
+    Only campaign managers can approve campaigns.
+    
+    Args:
+        campaign_id: ID of the campaign to approve
+        current_user: Current authenticated user
+        db: Database session
+        
+    Returns:
+        SuccessMessage: Success message
+        
+    Raises:
+        HTTPException: 403 if user is not campaign_manager, 404 if campaign not found
+    """
+    # Verify user is campaign_manager
+    if current_user.role != "campaign_manager":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only campaign managers can approve campaigns"
+        )
+    
+    # Fetch campaign from database
+    campaign = db.query(Campaign).filter(Campaign.id == campaign_id).first()
+    
+    if not campaign:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Campaign not found"
+        )
+    
+    try:
+        # Update status to approved
+        campaign.status = CampaignStatus.APPROVED.value
+        campaign.reviewed_by = current_user.id
+        campaign.reviewed_at = datetime.now()
+        campaign.updated_at = datetime.now()
+        
+        # Record approval metric
+        record_metric(
+            db=db,
+            metric_type="campaign_approval",
+            metric_value=1.0,
+            metadata={
+                "campaign_id": campaign_id,
+                "campaign_name": campaign.campaign_name,
+                "reviewed_by": current_user.id
+            }
+        )
+        
+        db.commit()
+        
+        return SuccessMessage(message="Campaign approved")
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to approve campaign: {str(e)}"
+        )
+
+
+@router.post("/{campaign_id}/reject", response_model=SuccessMessage)
+async def reject_campaign(
+    campaign_id: str,
+    rejection_data: RejectionRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Reject a campaign with a reason.
+    
+    Only campaign managers can reject campaigns.
+    Rejection reason is required and cannot be empty.
+    
+    Args:
+        campaign_id: ID of the campaign to reject
+        rejection_data: Rejection request with reason
+        current_user: Current authenticated user
+        db: Database session
+        
+    Returns:
+        SuccessMessage: Success message
+        
+    Raises:
+        HTTPException: 403 if user is not campaign_manager, 404 if campaign not found, 400 if rejection reason is empty
+    """
+    # Verify user is campaign_manager
+    if current_user.role != "campaign_manager":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only campaign managers can reject campaigns"
+        )
+    
+    # Rejection reason validation is handled by Pydantic schema
+    rejection_reason = rejection_data.rejection_reason.strip()
+    
+    if not rejection_reason:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Rejection reason cannot be empty"
+        )
+    
+    # Fetch campaign from database
+    campaign = db.query(Campaign).filter(Campaign.id == campaign_id).first()
+    
+    if not campaign:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Campaign not found"
+        )
+    
+    try:
+        # Update status to rejected
+        campaign.status = CampaignStatus.REJECTED.value
+        campaign.reviewed_by = current_user.id
+        campaign.reviewed_at = datetime.now()
+        campaign.rejection_reason = rejection_reason
+        campaign.updated_at = datetime.now()
+        
+        # Record rejection metric
+        record_metric(
+            db=db,
+            metric_type="campaign_rejection",
+            metric_value=1.0,
+            metadata={
+                "campaign_id": campaign_id,
+                "campaign_name": campaign.campaign_name,
+                "reviewed_by": current_user.id,
+                "rejection_reason": rejection_reason
+            }
+        )
+        
+        db.commit()
+        
+        return SuccessMessage(message="Campaign rejected")
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to reject campaign: {str(e)}"
         )
 

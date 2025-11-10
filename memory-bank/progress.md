@@ -45,15 +45,54 @@
   - CRUD functions (`get_campaigns_by_user`, `get_campaigns_by_status`, `get_campaign_with_assets`, `link_assets_to_campaign`)
   - Role-based access control and status validation
   - All implementation tasks complete (testing deferred until UI)
+- ✅ **PR #6: Email Proof Generation with AI (Backend)**
+  - MJML service (`mjml_service.py`) with `compile_mjml_to_html` function
+    - Uses Python mjml package API when available, falls back to CLI
+    - Error handling for invalid MJML and missing dependencies
+  - Performance metrics CRUD (`crud/metrics.py`) with `record_metric` function
+    - Records metrics with type, value, and optional metadata
+  - Proof generation endpoint (`POST /api/campaigns/{campaign_id}/generate-proof`)
+    - Fetches campaign with linked assets
+    - Verifies user permissions
+    - Calls OpenAI service to generate MJML (GPT-4)
+    - Compiles MJML to HTML
+    - Updates campaign with generated content
+    - Records performance metrics
+    - Returns MJML, HTML, and generation time
+    - Comprehensive error handling
+  - `ProofGenerationResponse` schema added to campaign schemas
+  - All implementation tasks complete (6.1-6.30), testing deferred until UI is ready
+- ✅ **PR #7: Approval Workflow (Backend)**
+  - Campaign submission endpoint (`POST /api/campaigns/{campaign_id}/submit`)
+    - Verifies user is advertiser and campaign ownership
+    - Validates campaign has generated email
+    - Updates status to "pending_approval"
+  - Approval queue endpoint (`GET /api/campaigns/approval-queue`)
+    - Campaign manager only
+    - Returns pending campaigns sorted by created_at (oldest first)
+  - Campaign approval endpoint (`POST /api/campaigns/{campaign_id}/approve`)
+    - Campaign manager only
+    - Updates status to "approved"
+    - Records reviewed_by, reviewed_at
+    - Records approval metric
+  - Campaign rejection endpoint (`POST /api/campaigns/{campaign_id}/reject`)
+    - Campaign manager only
+    - Accepts rejection_reason in request body
+    - Updates status to "rejected"
+    - Records reviewed_by, reviewed_at, rejection_reason
+    - Records rejection metric
+  - Metrics helper functions:
+    - `get_queue_depth()` - Count pending approval campaigns
+    - `calculate_approval_rate()` - Calculate approval rate percentage
+    - `calculate_time_to_approval()` - Calculate average time to approval
+  - Created `RejectionRequest` and `SuccessMessage` schemas
+  - All implementation tasks complete (7.1-7.34), testing deferred until PR #9
 
 ### In Progress
-- 🔄 Approval workflow (PR #7) - ready to start
+- 🔄 Backend testing (PR #9) - ready to start
 
 ### Not Started
 - ⏳ Frontend setup
-- ⏳ Email generation (PR #6)
-- ⏳ Approval workflow
-- ⏳ Performance monitoring
 - ⏳ UI components
 - ⏳ Testing
 
@@ -112,29 +151,36 @@
 - ✅ CRUD functions for database queries
 
 ### PR #6: Email Proof Generation with AI (Backend)
-**Status**: Not Started  
-**Tasks**: 35 tasks  
+**Status**: ✅ Complete (30/35 tasks, testing deferred)  
+**Tasks**: 35 tasks (30 implementation complete, 5 testing deferred)  
 **Key Deliverables**:
-- MJML service
-- GPT-4 email generation
-- Performance metrics recording
+- ✅ MJML service with Python package API and CLI fallback
+- ✅ GPT-4 email generation (already implemented in OpenAI service)
+- ✅ Performance metrics recording with metadata
+- ✅ Proof generation endpoint with comprehensive error handling
 
 ### PR #7: Approval Workflow (Backend)
-**Status**: Not Started  
-**Tasks**: 39 tasks  
+**Status**: ✅ Complete (34/39 tasks, testing deferred)  
+**Tasks**: 39 tasks (34 implementation complete, 5 testing deferred)  
 **Key Deliverables**:
-- Campaign submission
-- Approval queue endpoint
-- Approve/reject endpoints
-- Metrics tracking
+- ✅ Campaign submission endpoint with validation
+- ✅ Approval queue endpoint (campaign manager only)
+- ✅ Approve/reject endpoints with metrics tracking
+- ✅ Metrics helper functions (queue depth, approval rate, time-to-approval)
 
 ### PR #8: Performance Monitoring Dashboard (Backend)
-**Status**: Not Started  
-**Tasks**: 37 tasks  
+**Status**: ✅ Complete (32/37 tasks, testing deferred)  
+**Tasks**: 37 tasks (32 implementation complete, 5 testing deferred)  
 **Key Deliverables**:
-- Health check service
-- Metrics endpoints (uptime, generation, queue, approval rate)
-- Background health check worker
+- ✅ Health check service (`health_service.py`) with checks for API, S3, database, OpenAI
+- ✅ Metrics router (`metrics.py`) with 4 endpoints:
+  - `GET /api/metrics/uptime` - Component uptime over last 24 hours
+  - `GET /api/metrics/proof-generation` - Proof generation performance (average, P50, P95, P99)
+  - `GET /api/metrics/queue-depth` - Current approval queue depth
+  - `GET /api/metrics/approval-rate` - Approval rate metrics with breakdown
+- ✅ Metrics schemas (`schemas/metrics.py`) for all response types
+- ✅ Background health check worker (`scripts/health_check_worker.py`) running every 5 minutes
+- ✅ All endpoints require `tech_support` role
 
 ### PR #9: Backend Testing
 **Status**: Not Started  
@@ -250,15 +296,15 @@
 
 ## Current Status Summary
 
-**Overall Progress**: ~29% (PR #1-5 complete, 5/17 PRs done)
+**Overall Progress**: ~47% (PR #1-8 complete, 8/17 PRs done)
 
-**Backend**: ~60% complete
+**Backend**: ~90% complete
 - Models: 6/6 tables ✅
-- Routers: 3/5 routers ✅ (auth, asset, campaign routers complete; metrics pending)
-- Services: 4/5 services ✅ (S3 service, categorization service, OpenAI service, prompts module; MJML service pending)
-- CRUD: 1/1 ✅ (campaign CRUD functions)
+- Routers: 4/4 routers ✅ (auth, asset, campaign, metrics routers complete)
+- Services: 5/5 services ✅ (S3 service, categorization service, OpenAI service, MJML service, health service)
+- CRUD: 2/2 ✅ (campaign CRUD functions, metrics CRUD functions with approval helpers)
 - Dependencies: 1/1 ✅ (get_current_user)
-- Schemas: 3/3 ✅ (user schemas, asset schemas, campaign schemas)
+- Schemas: 4/4 ✅ (user schemas, asset schemas, campaign schemas, metrics schemas)
 - Tests: 0/5 test files
 - Database: ✅ Setup complete
 
@@ -321,8 +367,23 @@
 5. ✅ Complete PR #3 - Asset upload & S3 integration (backend)
 6. ✅ Complete PR #4 - AI asset recategorization (backend)
 7. ✅ Complete PR #5 - Campaign creation & management (backend)
-8. **Next**: Begin PR #6 - Email proof generation with AI (backend)
-   - Create MJML service for HTML compilation
-   - Implement email proof generation endpoint
-   - Add performance metrics recording
+8. ✅ Complete PR #6 - Email proof generation with AI (backend)
+   - Created MJML service for HTML compilation
+   - Implemented email proof generation endpoint
+   - Added performance metrics recording
+9. ✅ Complete PR #7 - Approval workflow (backend)
+   - Campaign submission endpoint with validation
+   - Approval queue endpoint (campaign manager only)
+   - Approve/reject endpoints with metrics tracking
+   - Metrics helper functions for queue depth, approval rate, time-to-approval
+10. ✅ Complete PR #8 - Performance monitoring dashboard (backend)
+   - Health check service with checks for API, S3, database, OpenAI
+   - Metrics router with 4 endpoints (uptime, proof-generation, queue-depth, approval-rate)
+   - Metrics schemas for all response types
+   - Background health check worker running every 5 minutes
+   - All endpoints require tech_support role
+11. **Next**: Begin PR #9 - Backend testing
+   - Pytest setup with fixtures
+   - Tests for all routers
+   - Critical path coverage
 

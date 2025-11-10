@@ -101,3 +101,21 @@ class ProofGenerationResponse(BaseModel):
     class Config:
         from_attributes = True
 
+
+class RejectionRequest(BaseModel):
+    """Schema for campaign rejection request."""
+    rejection_reason: str = Field(..., min_length=1, description="Reason for rejecting the campaign")
+    
+    @field_validator('rejection_reason')
+    @classmethod
+    def validate_rejection_reason(cls, v):
+        """Validate rejection reason is not empty."""
+        if not v or not v.strip():
+            raise ValueError("Rejection reason cannot be empty")
+        return v.strip()
+
+
+class SuccessMessage(BaseModel):
+    """Schema for simple success messages."""
+    message: str = Field(..., description="Success message")
+

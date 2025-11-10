@@ -3,48 +3,48 @@
 **Branch**: `feature/approval-workflow-backend`
 
 ### Backend - Campaign Submission
-- [ ] 7.1 Add `POST /api/campaigns/{campaign_id}/submit` endpoint
-- [ ] 7.2 Verify user is advertiser
-- [ ] 7.3 Verify campaign belongs to current user
-- [ ] 7.4 Verify campaign has generated email
-- [ ] 7.5 Update campaign status to "pending_approval"
-- [ ] 7.6 Update campaign updated_at timestamp
-- [ ] 7.7 Return success message
+- [x] 7.1 Add `POST /api/campaigns/{campaign_id}/submit` endpoint
+- [x] 7.2 Verify user is advertiser
+- [x] 7.3 Verify campaign belongs to current user
+- [x] 7.4 Verify campaign has generated email
+- [x] 7.5 Update campaign status to "pending_approval"
+- [x] 7.6 Update campaign updated_at timestamp
+- [x] 7.7 Return success message
 
 ### Backend - Approval Queue
-- [ ] 7.8 Add `GET /api/campaigns/approval-queue` endpoint
-- [ ] 7.9 Verify user is campaign_manager
-- [ ] 7.10 Query campaigns with status "pending_approval"
-- [ ] 7.11 Sort by created_at (oldest first)
-- [ ] 7.12 Return list of campaigns
+- [x] 7.8 Add `GET /api/campaigns/approval-queue` endpoint
+- [x] 7.9 Verify user is campaign_manager
+- [x] 7.10 Query campaigns with status "pending_approval"
+- [x] 7.11 Sort by created_at (oldest first)
+- [x] 7.12 Return list of campaigns
 
 ### Backend - Campaign Approval
-- [ ] 7.13 Add `POST /api/campaigns/{campaign_id}/approve` endpoint
-- [ ] 7.14 Verify user is campaign_manager
-- [ ] 7.15 Fetch campaign from database
-- [ ] 7.16 Update status to "approved"
-- [ ] 7.17 Set reviewed_by to current user ID
-- [ ] 7.18 Set reviewed_at to current timestamp
-- [ ] 7.19 Record approval metric
-- [ ] 7.20 Return success message
+- [x] 7.13 Add `POST /api/campaigns/{campaign_id}/approve` endpoint
+- [x] 7.14 Verify user is campaign_manager
+- [x] 7.15 Fetch campaign from database
+- [x] 7.16 Update status to "approved"
+- [x] 7.17 Set reviewed_by to current user ID
+- [x] 7.18 Set reviewed_at to current timestamp
+- [x] 7.19 Record approval metric
+- [x] 7.20 Return success message
 
 ### Backend - Campaign Rejection
-- [ ] 7.21 Add `POST /api/campaigns/{campaign_id}/reject` endpoint
-- [ ] 7.22 Verify user is campaign_manager
-- [ ] 7.23 Accept rejection_reason in request body
-- [ ] 7.24 Validate rejection_reason is not empty
-- [ ] 7.25 Fetch campaign from database
-- [ ] 7.26 Update status to "rejected"
-- [ ] 7.27 Set reviewed_by to current user ID
-- [ ] 7.28 Set reviewed_at to current timestamp
-- [ ] 7.29 Set rejection_reason
-- [ ] 7.30 Record rejection metric
-- [ ] 7.31 Return success message
+- [x] 7.21 Add `POST /api/campaigns/{campaign_id}/reject` endpoint
+- [x] 7.22 Verify user is campaign_manager
+- [x] 7.23 Accept rejection_reason in request body
+- [x] 7.24 Validate rejection_reason is not empty
+- [x] 7.25 Fetch campaign from database
+- [x] 7.26 Update status to "rejected"
+- [x] 7.27 Set reviewed_by to current user ID
+- [x] 7.28 Set reviewed_at to current timestamp
+- [x] 7.29 Set rejection_reason
+- [x] 7.30 Record rejection metric
+- [x] 7.31 Return success message
 
 ### Backend - Metrics Tracking
-- [ ] 7.32 Implement queue depth metric calculation
-- [ ] 7.33 Implement approval rate calculation
-- [ ] 7.34 Add time-to-approval tracking
+- [x] 7.32 Implement queue depth metric calculation
+- [x] 7.33 Implement approval rate calculation
+- [x] 7.34 Add time-to-approval tracking
 
 ### Testing
 - [ ] 7.35 Test campaign submission by advertiser
@@ -60,48 +60,48 @@
 **Branch**: `feature/monitoring-backend`
 
 ### Backend - Health Check Service
-- [ ] 8.1 Create `/backend/services/health_service.py`
-- [ ] 8.2 Implement `check_s3_health` function
-- [ ] 8.3 Implement `check_database_health` function
-- [ ] 8.4 Implement `check_openai_health` function
-- [ ] 8.5 Implement `perform_all_health_checks` function
-- [ ] 8.6 Record results in system_health table
+- [x] 8.1 Create `/backend/services/health_service.py`
+- [x] 8.2 Implement `check_s3_health` function
+- [x] 8.3 Implement `check_database_health` function
+- [x] 8.4 Implement `check_openai_health` function
+- [x] 8.5 Implement `perform_all_health_checks` function
+- [x] 8.6 Record results in system_health table
 
 ### Backend - Metrics Router
-- [ ] 8.7 Create `/backend/routers/metrics.py`
-- [ ] 8.8 Implement `GET /api/metrics/uptime` endpoint
-- [ ] 8.9 Verify user is tech_support role
-- [ ] 8.10 Query system_health table for last 24 hours
-- [ ] 8.11 Calculate uptime percentage
-- [ ] 8.12 Return uptime metrics
+- [x] 8.7 Create `/backend/routers/metrics.py`
+- [x] 8.8 Implement `GET /api/metrics/uptime` endpoint
+- [x] 8.9 Verify user is tech_support role
+- [x] 8.10 Query system_health table for last 24 hours
+- [x] 8.11 Calculate uptime percentage
+- [x] 8.12 Return uptime metrics
 
 ### Backend - Proof Generation Metrics
-- [ ] 8.13 Implement `GET /api/metrics/proof-generation` endpoint
-- [ ] 8.14 Verify user is tech_support role
-- [ ] 8.15 Query performance_metrics table for proof generation times
-- [ ] 8.16 Calculate average, P50, P95, P99 percentiles
-- [ ] 8.17 Return metrics
+- [x] 8.13 Implement `GET /api/metrics/proof-generation` endpoint
+- [x] 8.14 Verify user is tech_support role
+- [x] 8.15 Query performance_metrics table for proof generation times
+- [x] 8.16 Calculate average, P50, P95, P99 percentiles
+- [x] 8.17 Return metrics
 
 ### Backend - Queue Depth Metrics
-- [ ] 8.18 Implement `GET /api/metrics/queue-depth` endpoint
-- [ ] 8.19 Verify user is tech_support role
-- [ ] 8.20 Count campaigns with status "pending_approval"
-- [ ] 8.21 Return queue depth
+- [x] 8.18 Implement `GET /api/metrics/queue-depth` endpoint
+- [x] 8.19 Verify user is tech_support role
+- [x] 8.20 Count campaigns with status "pending_approval"
+- [x] 8.21 Return queue depth
 
 ### Backend - Approval Rate Metrics
-- [ ] 8.22 Implement `GET /api/metrics/approval-rate` endpoint
-- [ ] 8.23 Verify user is tech_support role
-- [ ] 8.24 Accept days parameter (default 7)
-- [ ] 8.25 Query approved and rejected campaigns
-- [ ] 8.26 Calculate approval rate percentage
-- [ ] 8.27 Return approval metrics with breakdown
-- [ ] 8.28 Register metrics router in `main.py`
+- [x] 8.22 Implement `GET /api/metrics/approval-rate` endpoint
+- [x] 8.23 Verify user is tech_support role
+- [x] 8.24 Accept days parameter (default 7)
+- [x] 8.25 Query approved and rejected campaigns
+- [x] 8.26 Calculate approval rate percentage
+- [x] 8.27 Return approval metrics with breakdown
+- [x] 8.28 Register metrics router in `main.py`
 
 ### Backend - Background Job Setup
-- [ ] 8.29 Create `/scripts/health_check_worker.py`
-- [ ] 8.30 Implement scheduled health checks (every 5 minutes)
-- [ ] 8.31 Call health service from worker
-- [ ] 8.32 Add error handling and logging
+- [x] 8.29 Create `/scripts/health_check_worker.py`
+- [x] 8.30 Implement scheduled health checks (every 5 minutes)
+- [x] 8.31 Call health service from worker
+- [x] 8.32 Add error handling and logging
 
 ### Testing
 - [ ] 8.33 Test uptime metrics endpoint

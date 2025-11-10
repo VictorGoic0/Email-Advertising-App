@@ -22,8 +22,8 @@ All external integrations and complex business logic live in `/backend/services/
 - `s3_service.py`: S3 file operations ✅ (upload, pre-signed URLs, deletion)
 - `categorization_service.py`: Rules-based categorization ✅ (logo, image, copy, url detection)
 - `openai_service.py`: AI categorization and email generation ✅ (GPT-3.5-turbo for categorization, GPT-4 for email generation)
-- `mjml_service.py`: MJML compilation (PR #6)
-- `health_service.py`: System health checks (PR #8)
+- `mjml_service.py`: MJML compilation ✅ (Python package API with CLI fallback)
+- `health_service.py`: System health checks ✅ (API, S3, database, OpenAI health monitoring)
 
 **Prompts Module**: Structured prompts live in `/backend/prompts/`:
 - `asset_categorization.py`: Comprehensive categorization prompt with core principles, category definitions, guidelines
@@ -36,8 +36,8 @@ All external integrations and complex business logic live in `/backend/services/
 API endpoints organized by domain in `/backend/routers/`:
 - `auth.py`: Authentication endpoints ✅ (login endpoint implemented)
 - `asset.py`: Asset CRUD operations ✅ (upload, get all, get one, delete, recategorize, manual category update)
-- `campaign.py`: Campaign management ✅ (create, get all, get one, update, delete with role-based filtering)
-- `metrics.py`: Performance monitoring endpoints (PR #8)
+- `campaign.py`: Campaign management ✅ (create, get all, get one, update, delete, generate-proof with role-based filtering)
+- `metrics.py`: Performance monitoring endpoints ✅ (uptime, proof-generation, queue-depth, approval-rate - tech_support only)
 
 **Rationale**: Clear separation of concerns, easy to navigate, scales well.
 
@@ -87,16 +87,17 @@ User uploads file
   → Frontend displays asset card
 ```
 
-### Email Generation Flow
+### Email Generation Flow ✅ Implemented
 ```
 User clicks "Generate Email Proof"
   → Frontend calls POST /api/campaigns/{id}/generate-proof
-  → Backend fetches campaign + assets
-  → OpenAI Service generates MJML (GPT-4)
-  → MJML Service compiles to HTML
-  → Campaign updated with MJML + HTML
-  → Performance metric recorded
-  → Response with HTML + generation time
+  → Backend fetches campaign + assets (get_campaign_with_assets)
+  → Verifies campaign belongs to user
+  → OpenAI Service generates MJML (GPT-4, temperature 0.7)
+  → MJML Service compiles to HTML (Python package API or CLI)
+  → Campaign updated with generated_email_mjml + generated_email_html
+  → Performance metric recorded (proof_generation_time with metadata)
+  → Response with ProofGenerationResponse (MJML, HTML, generation_time)
   → Frontend renders preview in iframe
 ```
 
@@ -177,9 +178,10 @@ All tables include:
 - 3 attempts max
 
 ### Metrics Recording
-- All proof generations record timing
-- Health checks run every 5 minutes (background job)
-- Metrics stored in `performance_metrics` table
+- All proof generations record timing in `performance_metrics` table
+- Health checks run every 5 minutes via background worker (`scripts/health_check_worker.py`)
+- Health check results stored in `system_health` table
+- Metrics endpoints provide uptime, performance, queue depth, and approval rate analytics
 
 ## Security Patterns (MVP Limitations)
 
