@@ -105,56 +105,56 @@
 **Branch**: `feature/asset-upload-backend`
 
 ### Backend - S3 Service
-- [ ] 3.1 Create `/backend/services` directory
-- [ ] 3.2 Create `/backend/services/s3_service.py`
-- [ ] 3.3 Initialize S3 client with boto3
-- [ ] 3.4 Implement `upload_file` method
-- [ ] 3.5 Generate unique S3 key (users/{user_id}/{filename})
-- [ ] 3.6 Upload file to S3 bucket
-- [ ] 3.7 Generate pre-signed URL (7 day expiration)
-- [ ] 3.8 Return s3_key and s3_url
-- [ ] 3.9 Implement `_get_content_type` helper method
-- [ ] 3.10 Add error handling for S3 upload failures
+- [x] 3.1 Create `/backend/services` directory
+- [x] 3.2 Create `/backend/services/s3_service.py`
+- [x] 3.3 Initialize S3 client with boto3
+- [x] 3.4 Implement `upload_file` method
+- [x] 3.5 Generate unique S3 key (users/{user_id}/{filename})
+- [x] 3.6 Upload file to S3 bucket
+- [x] 3.7 Generate pre-signed URL (7 day expiration)
+- [x] 3.8 Return s3_key and s3_url
+- [x] 3.9 Implement `_get_content_type` helper method
+- [x] 3.10 Add error handling for S3 upload failures
 
 ### Backend - Asset Categorization
-- [ ] 3.11 Create `/backend/services/categorization_service.py`
-- [ ] 3.12 Implement `categorize_asset` function with rules engine
-- [ ] 3.13 Add rule for logo detection (filename contains "logo")
-- [ ] 3.14 Add rule for text file extensions (.txt, .doc, .docx)
-- [ ] 3.15 Add rule for image file extensions (.jpg, .jpeg, .png, .gif, .webp)
-- [ ] 3.16 Return category and categorization_method tuple
-- [ ] 3.17 Add fallback to "pending" category
+- [x] 3.11 Create `/backend/services/categorization_service.py`
+- [x] 3.12 Implement `categorize_asset` function with rules engine
+- [x] 3.13 Add rule for logo detection (filename contains "logo")
+- [x] 3.14 Add rule for text file extensions (.txt, .doc, .docx)
+- [x] 3.15 Add rule for image file extensions (.jpg, .jpeg, .png, .gif, .webp)
+- [x] 3.16 Return category and categorization_method tuple
+- [x] 3.17 Add fallback to "pending" category
 
 ### Backend - Asset Schemas
-- [ ] 3.18 Create `/backend/schemas/asset.py`
-- [ ] 3.19 Define AssetCreate Pydantic model
-- [ ] 3.20 Define AssetResponse Pydantic model
-- [ ] 3.21 Define AssetUpdate Pydantic model
-- [ ] 3.22 Add validators for file types and sizes
+- [x] 3.18 Create `/backend/schemas/asset.py`
+- [x] 3.19 Define AssetCreate Pydantic model
+- [x] 3.20 Define AssetResponse Pydantic model
+- [x] 3.21 Define AssetUpdate Pydantic model
+- [x] 3.22 Add validators for file types and sizes
 
 ### Backend - Asset Router
-- [ ] 3.23 Create `/backend/routers/asset.py`
-- [ ] 3.24 Implement `POST /api/assets/upload` endpoint
-- [ ] 3.25 Accept multipart file upload
-- [ ] 3.26 Extract user from get_current_user dependency
-- [ ] 3.27 Read file content
-- [ ] 3.28 Call S3 service to upload file
-- [ ] 3.29 Call categorization service to categorize asset
-- [ ] 3.30 Create asset record in database with metadata
-- [ ] 3.31 Return AssetResponse with 201 status
-- [ ] 3.32 Add error handling for upload failures
+- [x] 3.23 Create `/backend/routers/asset.py`
+- [x] 3.24 Implement `POST /api/assets/upload` endpoint
+- [x] 3.25 Accept multipart file upload
+- [x] 3.26 Extract user from get_current_user dependency
+- [x] 3.27 Read file content
+- [x] 3.28 Call S3 service to upload file
+- [x] 3.29 Call categorization service to categorize asset
+- [x] 3.30 Create asset record in database with metadata
+- [x] 3.31 Return AssetResponse with 201 status
+- [x] 3.32 Add error handling for upload failures
 
 ### Backend - Asset CRUD Operations
-- [ ] 3.33 Implement `GET /api/assets` endpoint (get all user's assets)
-- [ ] 3.34 Filter assets by user_id from current user
-- [ ] 3.35 Implement `GET /api/assets/{asset_id}` endpoint
-- [ ] 3.36 Verify asset belongs to current user
-- [ ] 3.37 Return 404 if asset not found
-- [ ] 3.38 Return 403 if asset belongs to different user
-- [ ] 3.39 Implement `DELETE /api/assets/{asset_id}` endpoint
-- [ ] 3.40 Delete file from S3
-- [ ] 3.41 Delete asset record from database
-- [ ] 3.42 Register asset router in `main.py`
+- [x] 3.33 Implement `GET /api/assets` endpoint (get all user's assets)
+- [x] 3.34 Filter assets by user_id from current user
+- [x] 3.35 Implement `GET /api/assets/{asset_id}` endpoint
+- [x] 3.36 Verify asset belongs to current user
+- [x] 3.37 Return 404 if asset not found
+- [x] 3.38 Return 403 if asset belongs to different user
+- [x] 3.39 Implement `DELETE /api/assets/{asset_id}` endpoint
+- [x] 3.40 Delete file from S3
+- [x] 3.41 Delete asset record from database
+- [x] 3.42 Register asset router in `main.py`
 
 ### Testing
 - [ ] 3.43 Test file upload with logo image via Swagger UI

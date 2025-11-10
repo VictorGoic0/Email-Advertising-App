@@ -54,7 +54,8 @@ pip install -r requirements.txt
 DATABASE_URL=sqlite:///./dev.db
 AWS_ACCESS_KEY_ID=your_key
 AWS_SECRET_ACCESS_KEY=your_secret
-AWS_S3_BUCKET=email-assets-dev
+AWS_S3_BUCKET=email-assets-dev-goico
+AWS_REGION=us-east-2
 OPENAI_API_KEY=your_openai_key
 ```
 
@@ -127,7 +128,8 @@ The frontend will be available at `http://localhost:5173` (or the port shown in 
 - `DATABASE_URL`: SQLite database path (development) or PostgreSQL connection string (production)
 - `AWS_ACCESS_KEY_ID`: AWS access key for S3
 - `AWS_SECRET_ACCESS_KEY`: AWS secret key for S3
-- `AWS_S3_BUCKET`: S3 bucket name (e.g., `email-assets-dev`)
+- `AWS_S3_BUCKET`: S3 bucket name (e.g., `email-assets-dev-goico`)
+- `AWS_REGION`: AWS region for S3 (default: `us-east-2`)
 - `OPENAI_API_KEY`: OpenAI API key for AI features
 
 ### Frontend (`.env` in `frontend/`)

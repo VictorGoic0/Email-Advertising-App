@@ -12,7 +12,8 @@ class Settings(BaseSettings):
     # AWS S3
     AWS_ACCESS_KEY_ID: Optional[str] = None
     AWS_SECRET_ACCESS_KEY: Optional[str] = None
-    AWS_S3_BUCKET: str = "email-assets-dev"
+    AWS_S3_BUCKET: str = "email-assets-dev-goico"
+    AWS_REGION: str = "us-east-2"
     
     # OpenAI
     OPENAI_API_KEY: Optional[str] = None

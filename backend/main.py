@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from config import settings
-from routers import auth
+from routers import auth, asset
 
 app = FastAPI(
     title="Email Advertising Workflow System API",
@@ -25,6 +25,7 @@ app.add_middleware(
 
 # Register routers
 app.include_router(auth.router)
+app.include_router(asset.router)
 
 
 @app.get("/health")

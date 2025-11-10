@@ -1409,7 +1409,7 @@ npm run dev
 DATABASE_URL=sqlite:///./dev.db
 AWS_ACCESS_KEY_ID=your_key
 AWS_SECRET_ACCESS_KEY=your_secret
-AWS_S3_BUCKET=email-assets-dev
+AWS_S3_BUCKET=email-assets-dev-goico
 OPENAI_API_KEY=your_openai_key
 ```
 
@@ -1555,9 +1555,9 @@ def test_ai_recategorization(client, test_assets):
 
 ### Bucket Structure
 
-**Development Bucket**: `email-assets-dev`
+**Development Bucket**: `email-assets-dev-goico`
 ```
-email-assets-dev/
+email-assets-dev-goico/
 ├── users/
 │   ├── {user_id}/
 │   │   ├── logos/
@@ -1582,12 +1582,12 @@ email-assets-dev/
         "s3:GetObject",
         "s3:DeleteObject"
       ],
-      "Resource": "arn:aws:s3:::email-assets-dev/*"
+      "Resource": "arn:aws:s3:::email-assets-dev-goico/*"
     },
     {
       "Effect": "Allow",
       "Action": "s3:ListBucket",
-      "Resource": "arn:aws:s3:::email-assets-dev"
+      "Resource": "arn:aws:s3:::email-assets-dev-goico"
     }
   ]
 }
@@ -1604,7 +1604,7 @@ from botocore.exceptions import ClientError
 class S3Service:
     def __init__(self):
         self.client = boto3.client('s3')
-        self.bucket = 'email-assets-dev'
+        self.bucket = 'email-assets-dev-goico'
     
     async def upload_file(self, file_content: bytes, filename: str, user_id: str) -> dict:
         """

@@ -26,7 +26,7 @@
 
 ### External Services
 - **File Storage**: AWS S3
-  - Dev bucket: `email-assets-dev`
+  - Dev bucket: `email-assets-dev-goico`
   - Prod bucket: `email-assets-prod` (future)
 - **AI Services**: OpenAI API
   - GPT-3.5-turbo: Asset categorization
@@ -54,7 +54,7 @@
 DATABASE_URL=sqlite:///./dev.db
 AWS_ACCESS_KEY_ID=your_key
 AWS_SECRET_ACCESS_KEY=your_secret
-AWS_S3_BUCKET=email-assets-dev
+AWS_S3_BUCKET=email-assets-dev-goico
 OPENAI_API_KEY=your_openai_key
 ```
 
@@ -189,7 +189,7 @@ npm run dev
 
 ### Bucket Structure
 ```
-email-assets-dev/
+email-assets-dev-goico/
 ├── users/
 │   ├── {user_id}/
 │   │   ├── logos/
