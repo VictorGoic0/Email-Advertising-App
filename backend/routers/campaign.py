@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+import time
 
 from database import get_db
 from dependencies import get_current_user
@@ -14,6 +15,7 @@ from schemas.campaign import (
     CampaignUpdate,
     CampaignWithAssets,
     CampaignStatus,
+    ProofGenerationResponse,
 )
 from crud.campaign import (
     get_campaigns_by_user,
@@ -21,6 +23,9 @@ from crud.campaign import (
     get_campaign_with_assets,
     link_assets_to_campaign,
 )
+from crud.metrics import record_metric
+from services.openai_service import openai_service
+from services.mjml_service import compile_mjml_to_html
 
 router = APIRouter(prefix="/api/campaigns", tags=["campaigns"])
 
@@ -293,5 +298,133 @@ async def delete_campaign(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to delete campaign: {str(e)}"
+        )
+
+
+@router.post("/{campaign_id}/generate-proof", response_model=ProofGenerationResponse)
+async def generate_proof(
+    campaign_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Generate email proof (MJML and HTML) for a campaign using AI.
+    
+    Args:
+        campaign_id: ID of the campaign
+        current_user: Current authenticated user
+        db: Database session
+        
+    Returns:
+        ProofGenerationResponse: Generated MJML, HTML, and generation time
+        
+    Raises:
+        HTTPException: 404 if campaign not found, 403 if user doesn't have permission, 500 if generation fails
+    """
+    # Fetch campaign with assets
+    campaign = get_campaign_with_assets(db, campaign_id)
+    
+    if not campaign:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Campaign not found"
+        )
+    
+    # Verify campaign belongs to current user
+    if campaign.advertiser_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have permission to generate proof for this campaign"
+        )
+    
+    # Check if campaign has assets
+    if not campaign.campaign_assets:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Campaign must have at least one asset to generate proof"
+        )
+    
+    # Start performance timer
+    start_time = time.time()
+    
+    try:
+        # Prepare campaign details for OpenAI
+        campaign_details = {
+            "name": campaign.campaign_name,
+            "audience": campaign.target_audience or "general audience",
+            "goal": campaign.campaign_goal or "engage customers",
+            "notes": campaign.additional_notes or ""
+        }
+        
+        # Prepare assets for OpenAI
+        assets = []
+        for campaign_asset in campaign.campaign_assets:
+            asset = campaign_asset.asset
+            assets.append({
+                "id": asset.id,
+                "filename": asset.filename,
+                "s3_url": asset.s3_url,
+                "category": asset.category,
+                "file_type": asset.file_type
+            })
+        
+        # Generate MJML using OpenAI
+        mjml_code = openai_service.generate_email_mjml(
+            campaign_details=campaign_details,
+            assets=assets
+        )
+        
+        # Compile MJML to HTML
+        html_code = compile_mjml_to_html(mjml_code)
+        
+        # Calculate generation time
+        generation_time = time.time() - start_time
+        
+        # Update campaign with generated content
+        campaign.generated_email_mjml = mjml_code
+        campaign.generated_email_html = html_code
+        
+        # Record performance metric
+        record_metric(
+            db=db,
+            metric_type="proof_generation_time",
+            metric_value=generation_time,
+            metadata={
+                "campaign_id": campaign_id,
+                "campaign_name": campaign.campaign_name,
+                "asset_count": len(assets),
+                "mjml_length": len(mjml_code),
+                "html_length": len(html_code)
+            }
+        )
+        
+        db.commit()
+        
+        return ProofGenerationResponse(
+            mjml=mjml_code,
+            html=html_code,
+            generation_time=round(generation_time, 2)
+        )
+        
+    except ValueError as e:
+        # MJML compilation errors
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Failed to compile MJML: {str(e)}"
+        )
+    except RuntimeError as e:
+        # MJML command not found
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"MJML service error: {str(e)}"
+        )
+    except Exception as e:
+        # OpenAI or other errors
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to generate email proof: {str(e)}"
         )
 

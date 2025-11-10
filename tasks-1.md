@@ -266,42 +266,42 @@
 **Branch**: `feature/email-generation-backend`
 
 ### Backend - MJML Service
-- [ ] 6.1 Install mjml Python package
-- [ ] 6.2 Create `/backend/services/mjml_service.py`
-- [ ] 6.3 Implement `compile_mjml_to_html` function
-- [ ] 6.4 Call mjml compiler with MJML string
-- [ ] 6.5 Return compiled HTML
-- [ ] 6.6 Add error handling for invalid MJML
+- [x] 6.1 Install mjml Python package
+- [x] 6.2 Create `/backend/services/mjml_service.py`
+- [x] 6.3 Implement `compile_mjml_to_html` function
+- [x] 6.4 Call mjml compiler with MJML string
+- [x] 6.5 Return compiled HTML
+- [x] 6.6 Add error handling for invalid MJML
 
 ### Backend - OpenAI Email Generation
-- [ ] 6.7 Add `generate_email_mjml` method to OpenAI service
-- [ ] 6.8 Build prompt for GPT-4 email generation
-- [ ] 6.9 Include campaign details in prompt
-- [ ] 6.10 Include asset metadata in prompt
-- [ ] 6.11 Specify MJML requirements in prompt
-- [ ] 6.12 Call GPT-4 API with temperature 0.7
-- [ ] 6.13 Parse MJML code from response
-- [ ] 6.14 Clean markdown code blocks from response
-- [ ] 6.15 Add retry logic with exponential backoff
+- [x] 6.7 Add `generate_email_mjml` method to OpenAI service
+- [x] 6.8 Build prompt for GPT-4 email generation
+- [x] 6.9 Include campaign details in prompt
+- [x] 6.10 Include asset metadata in prompt
+- [x] 6.11 Specify MJML requirements in prompt
+- [x] 6.12 Call GPT-4 API with temperature 0.7
+- [x] 6.13 Parse MJML code from response
+- [x] 6.14 Clean markdown code blocks from response
+- [x] 6.15 Add retry logic with exponential backoff
 
 ### Backend - Proof Generation Endpoint
-- [ ] 6.16 Add `POST /api/campaigns/{campaign_id}/generate-proof` to campaign router
-- [ ] 6.17 Fetch campaign and linked assets from database
-- [ ] 6.18 Verify campaign belongs to current user
-- [ ] 6.19 Start performance timer
-- [ ] 6.20 Call OpenAI service to generate MJML
-- [ ] 6.21 Call MJML service to compile to HTML
-- [ ] 6.22 Update campaign with generated_email_mjml and generated_email_html
-- [ ] 6.23 Calculate generation time
-- [ ] 6.24 Record performance metric in database
-- [ ] 6.25 Return MJML, HTML, and generation_time
-- [ ] 6.26 Add error handling for generation failures
+- [x] 6.16 Add `POST /api/campaigns/{campaign_id}/generate-proof` to campaign router
+- [x] 6.17 Fetch campaign and linked assets from database
+- [x] 6.18 Verify campaign belongs to current user
+- [x] 6.19 Start performance timer
+- [x] 6.20 Call OpenAI service to generate MJML
+- [x] 6.21 Call MJML service to compile to HTML
+- [x] 6.22 Update campaign with generated_email_mjml and generated_email_html
+- [x] 6.23 Calculate generation time
+- [x] 6.24 Record performance metric in database
+- [x] 6.25 Return MJML, HTML, and generation_time
+- [x] 6.26 Add error handling for generation failures
 
 ### Backend - Performance Metrics
-- [ ] 6.27 Create `/backend/crud/metrics.py`
-- [ ] 6.28 Implement `record_metric` function
-- [ ] 6.29 Insert metric record into performance_metrics table
-- [ ] 6.30 Add metadata field for additional context
+- [x] 6.27 Create `/backend/crud/metrics.py`
+- [x] 6.28 Implement `record_metric` function
+- [x] 6.29 Insert metric record into performance_metrics table
+- [x] 6.30 Add metadata field for additional context
 
 ### Testing
 - [ ] 6.31 Test email proof generation with complete campaign

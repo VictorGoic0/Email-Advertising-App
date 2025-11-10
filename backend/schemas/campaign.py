@@ -91,3 +91,13 @@ class CampaignWithAssets(CampaignResponse):
     class Config:
         from_attributes = True
 
+
+class ProofGenerationResponse(BaseModel):
+    """Schema for email proof generation response."""
+    mjml: str = Field(..., description="Generated MJML code")
+    html: str = Field(..., description="Compiled HTML from MJML")
+    generation_time: float = Field(..., description="Time taken to generate proof in seconds")
+    
+    class Config:
+        from_attributes = True
+

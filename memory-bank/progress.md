@@ -47,7 +47,7 @@
   - All implementation tasks complete (testing deferred until UI)
 
 ### In Progress
-- 🔄 Email proof generation with AI (PR #6) - ready to start
+- 🔄 Approval workflow (PR #7) - ready to start
 
 ### Not Started
 - ⏳ Frontend setup
