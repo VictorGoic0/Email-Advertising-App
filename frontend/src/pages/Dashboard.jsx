@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -35,7 +36,10 @@ export default function Dashboard() {
               <CardDescription>Upload and organize assets</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">Manage logos, images, copy, and URLs</p>
+              <p className="text-sm text-muted-foreground mb-4">Manage logos, images, copy, and URLs</p>
+              <Button asChild>
+                <Link to="/assets">Upload Assets</Link>
+              </Button>
             </CardContent>
           </Card>
 

@@ -269,67 +269,67 @@
 **Branch**: `feature/asset-upload-ui`
 
 ### Asset Upload Components
-- [ ] 11.1 Create `/frontend/src/components/AssetUpload.tsx`
-- [ ] 11.2 Implement drag-and-drop zone with file input
-- [ ] 11.3 Style drop zone with hover states
-- [ ] 11.4 Handle file selection from input
-- [ ] 11.5 Handle file drop event
-- [ ] 11.6 Show file preview for selected files
-- [ ] 11.7 Implement upload to backend API
-- [ ] 11.8 Show upload progress indicator
-- [ ] 11.9 Handle upload errors
-- [ ] 11.10 Display success message on upload
+- [x] 11.1 Create `/frontend/src/components/AssetUpload.tsx`
+- [x] 11.2 Implement drag-and-drop zone with file input
+- [x] 11.3 Style drop zone with hover states
+- [x] 11.4 Handle file selection from input
+- [x] 11.5 Handle file drop event
+- [x] 11.6 Show file preview for selected files
+- [x] 11.7 Implement upload to backend API
+- [x] 11.8 Show upload progress indicator
+- [x] 11.9 Handle upload errors
+- [x] 11.10 Display success message on upload
 
 ### Asset Card Component
-- [ ] 11.11 Create `/frontend/src/components/AssetCard.tsx`
-- [ ] 11.12 Display asset filename
-- [ ] 11.13 Display asset category tag
-- [ ] 11.14 Show image preview for image assets
-- [ ] 11.15 Show text preview for text assets
-- [ ] 11.16 Style card with Tailwind
-- [ ] 11.17 Add delete button to card
-- [ ] 11.18 Implement delete functionality
+- [x] 11.11 Create `/frontend/src/components/AssetCard.tsx`
+- [x] 11.12 Display asset filename
+- [x] 11.13 Display asset category tag
+- [x] 11.14 Show image preview for image assets
+- [x] 11.15 Show text preview for text assets
+- [x] 11.16 Style card with Tailwind
+- [x] 11.17 Add delete button to card
+- [x] 11.18 Implement delete functionality
 
 ### Asset Review Component
-- [ ] 11.19 Create `/frontend/src/components/AssetReview.tsx`
-- [ ] 11.20 Fetch uploaded assets from API
-- [ ] 11.21 Display assets in grid layout
-- [ ] 11.22 Group assets by category
-- [ ] 11.23 Add "Looks Good" button
-- [ ] 11.24 Add "Recategorize with AI" button
-- [ ] 11.25 Implement AI recategorization API call
-- [ ] 11.26 Show loading state during AI recategorization
-- [ ] 11.27 Update asset categories on success
+- [x] 11.19 Create `/frontend/src/components/AssetReview.tsx`
+- [x] 11.20 Fetch uploaded assets from API
+- [x] 11.21 Display assets in grid layout
+- [x] 11.22 Group assets by category
+- [x] 11.23 Add "Looks Good" button
+- [x] 11.24 Add "Recategorize with AI" button
+- [x] 11.25 Implement AI recategorization API call
+- [x] 11.26 Show loading state during AI recategorization
+- [x] 11.27 Update asset categories on success
 
 ### Category Zone Component
-- [ ] 11.28 Create `/frontend/src/components/CategoryZone.tsx`
-- [ ] 11.29 Create drop zones for each category (logos, images, copy, urls)
-- [ ] 11.30 Implement drag-and-drop functionality
-- [ ] 11.31 Update asset category on drop
-- [ ] 11.32 Call manual category update API
-- [ ] 11.33 Show visual feedback during drag
-- [ ] 11.34 Style category zones with Tailwind
+- [x] 11.28 Create `/frontend/src/components/CategoryZone.tsx`
+- [x] 11.29 Create drop zones for each category (logos, images, copy, urls)
+- [x] 11.30 Implement drag-and-drop functionality
+- [x] 11.31 Update asset category on drop
+- [x] 11.32 Call manual category update API
+- [x] 11.33 Show visual feedback during drag
+- [x] 11.34 Style category zones with Tailwind
 
 ### Asset Hooks
-- [ ] 11.35 Create `/frontend/src/hooks/useAssets.ts`
-- [ ] 11.36 Implement fetchAssets function
-- [ ] 11.37 Implement uploadAsset function
-- [ ] 11.38 Implement deleteAsset function
-- [ ] 11.39 Implement recategorizeAssets function
-- [ ] 11.40 Implement updateAssetCategory function
-- [ ] 11.41 Add loading and error states
+- [x] 11.35 Create `/frontend/src/hooks/useAssets.ts`
+- [x] 11.36 Implement fetchAssets function
+- [x] 11.37 Implement uploadAsset function
+- [x] 11.38 Implement deleteAsset function
+- [x] 11.39 Implement recategorizeAssets function
+- [x] 11.40 Implement updateAssetCategory function
+- [x] 11.41 Add loading and error states
 
 ### Asset Upload Page
-- [ ] 11.42 Create `/frontend/src/pages/AssetUploadPage.tsx`
-- [ ] 11.43 Integrate AssetUpload component
-- [ ] 11.44 Integrate AssetReview component
-- [ ] 11.45 Integrate CategoryZone component (conditionally)
-- [ ] 11.46 Implement navigation between upload steps
-- [ ] 11.47 Add breadcrumb or progress indicator
+- [x] 11.42 Create `/frontend/src/pages/AssetUploadPage.tsx`
+- [x] 11.43 Integrate AssetUpload component
+- [x] 11.44 Integrate AssetReview component
+- [x] 11.45 Integrate CategoryZone component (conditionally)
+- [x] 11.46 Implement navigation between upload steps
+- [x] 11.47 Add breadcrumb or progress indicator
 
 ### Testing
-- [ ] 11.48 Test file upload with different file types
-- [ ] 11.49 Test drag-and-drop functionality
-- [ ] 11.50 Test AI recategorization
-- [ ] 11.51 Test manual category update
-- [ ] 11.52 Test asset deletion
+- [x] 11.48 Test file upload with different file types
+- [x] 11.49 Test drag-and-drop functionality
+- [x] 11.50 Test AI recategorization
+- [x] 11.51 Test manual category update
+- [x] 11.52 Test asset deletion
