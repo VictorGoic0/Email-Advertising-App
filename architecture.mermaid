@@ -1,0 +1,104 @@
+graph TB
+    subgraph "Frontend - React + Vite"
+        A[User Browser]
+        B[React App]
+        C[Auth Context]
+        D[Axios Client]
+        E[UI Components<br/>shadcn/ui]
+        
+        A --> B
+        B --> C
+        B --> D
+        B --> E
+    end
+    
+    subgraph "Backend - FastAPI"
+        F[FastAPI Server]
+        G[Auth Router]
+        H[Asset Router]
+        I[Campaign Router]
+        J[Metrics Router]
+        K[Dependencies<br/>get_current_user]
+        
+        F --> G
+        F --> H
+        F --> I
+        F --> J
+        F --> K
+    end
+    
+    subgraph "Services Layer"
+        L[S3 Service]
+        M[OpenAI Service]
+        N[MJML Service]
+        O[Categorization Service]
+        P[Health Service]
+    end
+    
+    subgraph "Database - PostgreSQL/SQLite"
+        Q[(Users)]
+        R[(Assets)]
+        S[(Campaigns)]
+        T[(Campaign_Assets)]
+        U[(Performance_Metrics)]
+        V[(System_Health)]
+    end
+    
+    subgraph "External Services"
+        W[AWS S3<br/>File Storage]
+        X[OpenAI API<br/>GPT-3.5 & GPT-4]
+    end
+    
+    subgraph "Background Jobs"
+        Y[Health Check Worker]
+    end
+    
+    %% Frontend to Backend
+    D -->|HTTP Requests<br/>X-User-ID Header| F
+    
+    %% Backend to Services
+    H --> L
+    H --> O
+    I --> M
+    I --> N
+    J --> P
+    
+    %% Services to External
+    L -->|Upload/Download Files| W
+    M -->|Generate Content| X
+    O -->|AI Categorization| X
+    
+    %% Backend to Database
+    G --> Q
+    H --> R
+    I --> S
+    I --> T
+    J --> U
+    P --> V
+    
+    %% Background Jobs
+    Y -->|Every 5 min| P
+    P --> V
+    
+    %% User Flows
+    subgraph "User Roles"
+        Z1[Advertiser]
+        Z2[Campaign Manager]
+        Z3[Tech Support]
+    end
+    
+    Z1 -.->|Upload Assets<br/>Create Campaigns| A
+    Z2 -.->|Review & Approve| A
+    Z3 -.->|Monitor System| A
+    
+    style A fill:#e1f5ff
+    style B fill:#e1f5ff
+    style F fill:#fff4e1
+    style L fill:#f0e1ff
+    style M fill:#f0e1ff
+    style N fill:#f0e1ff
+    style W fill:#e1ffe1
+    style X fill:#e1ffe1
+    style Q fill:#ffe1e1
+    style R fill:#ffe1e1
+    style S fill:#ffe1e1
