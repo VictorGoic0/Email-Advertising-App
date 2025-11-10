@@ -65,8 +65,8 @@ Global state (authentication) managed via React Context:
 
 ### 5. Custom Hooks Pattern (React)
 API calls abstracted into reusable hooks:
-- `useAuth()`: Authentication operations
-- `useAssets()`: Asset CRUD operations
+- `useAuth()`: Authentication operations ✅
+- `useAssets()`: Asset CRUD operations ✅ (fetch, upload, delete, recategorize, updateCategory)
 - `useCampaigns()`: Campaign operations
 - `useMetrics()`: Performance metrics
 
@@ -202,17 +202,17 @@ All tables include:
 ```
 src/
 ├── components/
-│   ├── ui/              # shadcn components
-│   ├── auth/            # Login, ProtectedRoute
-│   ├── assets/          # AssetUpload, AssetReview, AssetCard
+│   ├── ui/              # shadcn components (button, card, input, form, label, dropdown-menu, checkbox) ✅
+│   ├── auth/            # Login, ProtectedRoute ✅
+│   ├── assets/          # AssetUpload ✅, AssetReview ✅, AssetCard ✅, CategoryZone ✅
 │   ├── campaigns/       # CampaignForm, CampaignList, EmailPreview
 │   ├── monitoring/      # PerformanceDashboard, MetricCard
-│   └── layout/          # Header, Sidebar, Layout
-├── pages/               # Route-level components
-├── hooks/               # Custom React hooks
-├── contexts/            # React Context providers
-├── lib/                 # Utilities (axios, utils)
-└── types/               # TypeScript interfaces
+│   └── layout/          # Layout ✅
+├── pages/               # Route-level components (Login ✅, Dashboard ✅, AssetUploadPage ✅)
+├── hooks/               # Custom React hooks (useAssets ✅)
+├── contexts/            # React Context providers (AuthContext ✅)
+├── lib/                 # Utilities (axios ✅, utils ✅)
+└── types/               # TypeScript interfaces (IDE-only) ✅
 ```
 
 ## Testing Patterns

@@ -1,4 +1,5 @@
 """Asset router for file upload and management."""
+import time
 from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -242,6 +243,11 @@ async def recategorize_assets(
         )
     
     try:
+        start_time = time.time()
+        print(f"[Recategorize] Starting recategorization for {len(request.asset_ids)} asset(s)")
+        
+        # Fetch assets timing
+        fetch_start = time.time()
         # Prepare asset metadata for OpenAI
         assets_metadata = [
             {
@@ -252,11 +258,17 @@ async def recategorize_assets(
             }
             for asset in assets
         ]
+        fetch_time = time.time() - fetch_start
+        print(f"[Recategorize] Asset metadata preparation: {fetch_time:.3f}s")
         
-        # Call OpenAI service to recategorize
+        # OpenAI API call timing
+        openai_start = time.time()
         categorization_map = openai_service.categorize_assets(assets_metadata)
+        openai_time = time.time() - openai_start
+        print(f"[Recategorize] OpenAI API call: {openai_time:.3f}s")
         
-        # Update assets in database
+        # Database update timing
+        db_start = time.time()
         updated_assets = []
         for asset in assets:
             if asset.id in categorization_map:
@@ -269,6 +281,11 @@ async def recategorize_assets(
         # Refresh all assets
         for asset in updated_assets:
             db.refresh(asset)
+        db_time = time.time() - db_start
+        print(f"[Recategorize] Database update: {db_time:.3f}s")
+        
+        total_time = time.time() - start_time
+        print(f"[Recategorize] Total backend time: {total_time:.3f}s ({len(updated_assets)} asset(s) updated)")
         
         return updated_assets
         
