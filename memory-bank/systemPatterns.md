@@ -9,6 +9,12 @@ The system follows a **3-tier architecture**:
 
 External services: AWS S3 (storage), OpenAI API (AI), MJML (email compilation)
 
+### Database Schema (✅ Implemented)
+- **6 tables**: users, assets, campaigns, campaign_assets, performance_metrics, system_health
+- **Relationships**: User → Assets (1:N), User → Campaigns (1:N), Campaign ↔ Assets (N:M)
+- **Migrations**: Alembic configured, initial migration applied
+- **Models**: All SQLAlchemy models in `/backend/models/` with proper relationships and indexes
+
 ## Core Design Patterns
 
 ### 1. Service Layer Pattern
