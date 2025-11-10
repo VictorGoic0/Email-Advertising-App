@@ -4,6 +4,9 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 import Login from '@/pages/Login';
 import Dashboard from '@/pages/Dashboard';
 import AssetUploadPage from '@/pages/AssetUploadPage';
+import CreateCampaign from '@/pages/CreateCampaign';
+import MyCampaigns from '@/pages/MyCampaigns';
+import EmailPreviewPage from '@/pages/EmailPreviewPage';
 import Layout from '@/components/Layout';
 import './App.css';
 
@@ -39,6 +42,36 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <AssetUploadPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/campaigns"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <MyCampaigns />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/campaigns/new"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <CreateCampaign />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/campaigns/:id"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <EmailPreviewPage />
                 </Layout>
               </ProtectedRoute>
             }

@@ -2,21 +2,17 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 export default function Dashboard() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-stone-50">
       <div className="container mx-auto p-6">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground mt-1">Welcome back, {user?.full_name}</p>
-          </div>
-          <Button variant="outline" onClick={logout}>
-            Logout
-          </Button>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-muted-foreground mt-1">Welcome back, {user?.full_name}</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -25,8 +21,19 @@ export default function Dashboard() {
               <CardTitle>Campaigns</CardTitle>
               <CardDescription>Manage your email campaigns</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">Create and manage your email advertising campaigns</p>
+              <div className="flex gap-2">
+                <Button asChild variant="outline" size="sm">
+                  <Link to="/campaigns">View Campaigns</Link>
+                </Button>
+                <Button asChild size="sm">
+                  <Link to="/campaigns/new">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Create Campaign
+                  </Link>
+                </Button>
+              </div>
             </CardContent>
           </Card>
 

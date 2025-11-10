@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Upload, CheckCircle2, Grid3x3 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Upload, CheckCircle2, Grid3x3, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useAssets } from '@/hooks/useAssets';
@@ -17,6 +18,7 @@ const STEPS = {
  * AssetUploadPage - Main page for asset upload workflow
  */
 export default function AssetUploadPage() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(STEPS.UPLOAD);
   const [deletingAssetId, setDeletingAssetId] = useState(null);
 
@@ -211,6 +213,10 @@ export default function AssetUploadPage() {
               </Button>
               <Button variant="outline" onClick={() => setCurrentStep(STEPS.REVIEW)}>
                 Back to Review
+              </Button>
+              <Button onClick={() => navigate('/campaigns/new')}>
+                <Plus className="h-4 w-4 mr-2" />
+                Create Campaign
               </Button>
             </div>
           </div>

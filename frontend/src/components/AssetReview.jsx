@@ -15,10 +15,16 @@ export default function AssetReview({
   onRecategorize,
   loading,
   deletingAssetId,
+  selectable = false,
+  selectedAssetIds = [],
+  onAssetToggle = null,
 }) {
-  const [selectedAssets, setSelectedAssets] = useState([]);
+  const [internalSelectedAssets, setInternalSelectedAssets] = useState([]);
   const [isRecategorizing, setIsRecategorizing] = useState(false);
   const [groupedAssets, setGroupedAssets] = useState({});
+
+  // Use controlled selection if provided, otherwise use internal state
+  const selectedAssets = selectable && onAssetToggle ? selectedAssetIds : internalSelectedAssets;
 
   // Group assets by category
   useEffect(() => {
@@ -35,28 +41,51 @@ export default function AssetReview({
   }, [assets]);
 
   const handleToggleSelect = (assetId) => {
-    setSelectedAssets((prev) =>
-      prev.includes(assetId)
-        ? prev.filter((id) => id !== assetId)
-        : [...prev, assetId]
-    );
+    if (selectable && onAssetToggle) {
+      // Controlled mode - call parent handler
+      onAssetToggle(assetId);
+    } else {
+      // Internal state mode
+      setInternalSelectedAssets((prev) =>
+        prev.includes(assetId)
+          ? prev.filter((id) => id !== assetId)
+          : [...prev, assetId]
+      );
+    }
   };
 
   const handleSelectAll = () => {
-    if (selectedAssets.length === assets.length) {
-      setSelectedAssets([]);
+    if (selectable && onAssetToggle) {
+      // Controlled mode - toggle each asset
+      if (selectedAssets.length === assets.length) {
+        assets.forEach((asset) => onAssetToggle(asset.id));
+      } else {
+        assets.forEach((asset) => {
+          if (!selectedAssets.includes(asset.id)) {
+            onAssetToggle(asset.id);
+          }
+        });
+      }
     } else {
-      setSelectedAssets(assets.map((asset) => asset.id));
+      // Internal state mode
+      if (internalSelectedAssets.length === assets.length) {
+        setInternalSelectedAssets([]);
+      } else {
+        setInternalSelectedAssets(assets.map((asset) => asset.id));
+      }
     }
   };
 
   const handleRecategorize = async () => {
-    if (selectedAssets.length === 0) return;
+    if (selectedAssets.length === 0 || !onRecategorize) return;
 
     setIsRecategorizing(true);
     try {
       await onRecategorize(selectedAssets);
-      setSelectedAssets([]);
+      if (!selectable) {
+        // Only clear internal state if not in controlled mode
+        setInternalSelectedAssets([]);
+      }
     } catch (err) {
       console.error('Failed to recategorize assets:', err);
     } finally {
@@ -107,7 +136,7 @@ export default function AssetReview({
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
-              {selectedAssets.length > 0 && (
+              {!selectable && selectedAssets.length > 0 && onRecategorize && (
                 <Button
                   variant="outline"
                   size="sm"
