@@ -19,8 +19,10 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     
     class Config:
-        env_file = ".env"
+        # Load from multiple env files - .env.local takes precedence over .env
+        env_file = (".env.local", ".env")
         case_sensitive = True
+        extra = "ignore"
 
 
 # Global settings instance

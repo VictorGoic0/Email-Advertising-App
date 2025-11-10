@@ -171,36 +171,36 @@
 **Branch**: `feature/ai-recategorization-backend`
 
 ### Backend - OpenAI Service
-- [ ] 4.1 Create `/backend/services/openai_service.py`
-- [ ] 4.2 Initialize OpenAI client with API key
-- [ ] 4.3 Implement `categorize_assets` method
-- [ ] 4.4 Build prompt for GPT-3.5-turbo categorization
-- [ ] 4.5 Format asset metadata as JSON in prompt
-- [ ] 4.6 Call OpenAI API with retry logic (tenacity)
-- [ ] 4.7 Parse JSON response from OpenAI
-- [ ] 4.8 Return mapping of asset_id to category
-- [ ] 4.9 Add error handling for API failures
-- [ ] 4.10 Add error handling for rate limits
+- [x] 4.1 Create `/backend/services/openai_service.py`
+- [x] 4.2 Initialize OpenAI client with API key
+- [x] 4.3 Implement `categorize_assets` method
+- [x] 4.4 Build prompt for GPT-3.5-turbo categorization
+- [x] 4.5 Format asset metadata as JSON in prompt
+- [x] 4.6 Call OpenAI API with retry logic (tenacity)
+- [x] 4.7 Parse JSON response from OpenAI
+- [x] 4.8 Return mapping of asset_id to category
+- [x] 4.9 Add error handling for API failures
+- [x] 4.10 Add error handling for rate limits
 
 ### Backend - Asset Recategorization Endpoint
-- [ ] 4.11 Add `POST /api/assets/recategorize` endpoint to asset router
-- [ ] 4.12 Accept list of asset IDs in request body
-- [ ] 4.13 Verify all assets belong to current user
-- [ ] 4.14 Fetch asset metadata from database
-- [ ] 4.15 Call OpenAI service to recategorize
-- [ ] 4.16 Update asset categories in database
-- [ ] 4.17 Update categorization_method to "ai"
-- [ ] 4.18 Return updated assets
-- [ ] 4.19 Add error handling for OpenAI failures
+- [x] 4.11 Add `POST /api/assets/recategorize` endpoint to asset router
+- [x] 4.12 Accept list of asset IDs in request body
+- [x] 4.13 Verify all assets belong to current user
+- [x] 4.14 Fetch asset metadata from database
+- [x] 4.15 Call OpenAI service to recategorize
+- [x] 4.16 Update asset categories in database
+- [x] 4.17 Update categorization_method to "ai"
+- [x] 4.18 Return updated assets
+- [x] 4.19 Add error handling for OpenAI failures
 
 ### Backend - Manual Category Update
-- [ ] 4.20 Add `PATCH /api/assets/{asset_id}/category` endpoint
-- [ ] 4.21 Accept new category in request body
-- [ ] 4.22 Verify asset belongs to current user
-- [ ] 4.23 Validate category is valid (logo, image, copy, url)
-- [ ] 4.24 Update asset category in database
-- [ ] 4.25 Update categorization_method to "manual"
-- [ ] 4.26 Return updated asset
+- [x] 4.20 Add `PATCH /api/assets/{asset_id}/category` endpoint
+- [x] 4.21 Accept new category in request body
+- [x] 4.22 Verify asset belongs to current user
+- [x] 4.23 Validate category is valid (logo, image, copy, url)
+- [x] 4.24 Update asset category in database
+- [x] 4.25 Update categorization_method to "manual"
+- [x] 4.26 Return updated asset
 
 ### Testing
 - [ ] 4.27 Test AI recategorization with multiple assets
