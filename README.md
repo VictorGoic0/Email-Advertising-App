@@ -205,6 +205,62 @@ The system uses a simplified authentication mechanism for MVP speed:
 3. **Database**: Create Alembic migrations for schema changes
 4. **Testing**: Run backend tests with `pytest` (end of MVP)
 
+## Deployment
+
+### Frontend Deployment (Netlify)
+
+The frontend is configured for deployment on Netlify with automatic builds from GitHub.
+
+#### Prerequisites
+
+1. Test production build locally:
+```bash
+cd frontend
+npm run build
+npm run preview
+```
+
+2. Verify all features work correctly in the production build.
+
+#### Netlify Setup
+
+1. **Connect Repository**:
+   - Go to [Netlify Dashboard](https://app.netlify.com)
+   - Click "Add new site" → "Import an existing project"
+   - Connect your GitHub repository
+   - Netlify will auto-detect the configuration from `netlify.toml`
+
+2. **Configure Environment Variables**:
+   - In Netlify Dashboard: Site settings → Environment variables
+   - Add the following variable:
+     - `VITE_API_URL`: Your backend API URL (e.g., `https://your-backend.railway.app/api`)
+   - **Important**: Set this to your Railway backend URL after backend deployment
+
+3. **Build Settings** (auto-configured via `netlify.toml`):
+   - Base directory: `frontend`
+   - Build command: `npm run build`
+   - Publish directory: `frontend/dist`
+   - Node version: 20 (LTS)
+
+4. **Deploy**:
+   - Netlify will automatically deploy from the `main` branch
+   - Deploy previews are created for pull requests
+   - The site will be available at `https://your-site.netlify.app`
+
+#### Post-Deployment Checklist
+
+- [ ] Verify deployed site loads correctly
+- [ ] Test login flow with backend API
+- [ ] Test asset upload (S3 integration)
+- [ ] Test campaign creation and approval workflow
+- [ ] Verify all routes work (no 404s on refresh)
+- [ ] Test on mobile device/responsive design
+- [ ] Check browser console for errors
+
+### Backend Deployment (Railway)
+
+See `tasks-4.md` for complete backend deployment instructions.
+
 ## Key Features
 
 - **Asset Upload**: Upload logos, images, text files, and URLs to S3
