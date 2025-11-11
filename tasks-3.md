@@ -224,51 +224,51 @@
 **Branch**: `feature/dashboard-routing`
 
 ### Dashboard Component
-- [ ] 16.1 Create `/frontend/src/pages/Dashboard.tsx`
-- [ ] 16.2 Get user role from AuthContext
-- [ ] 16.3 Render AdvertiserDashboard for advertisers
-- [ ] 16.4 Render ApprovalQueue for campaign_manager
-- [ ] 16.5 Render PerformanceDashboard for tech_support
+- [x] 16.1 Create `/frontend/src/pages/Dashboard.tsx`
+- [x] 16.2 Get user role from AuthContext
+- [x] 16.3 Render AdvertiserDashboard for advertisers
+- [x] 16.4 Render ApprovalQueue for campaign_manager
+- [x] 16.5 Render PerformanceDashboard for tech_support
 
 ### Advertiser Dashboard
-- [ ] 16.6 Create `/frontend/src/components/AdvertiserDashboard.tsx`
-- [ ] 16.7 Display quick stats (total campaigns, approved, pending)
-- [ ] 16.8 Show recent campaigns list
-- [ ] 16.9 Add "Create New Campaign" CTA button
-- [ ] 16.10 Style with Tailwind
+- [x] 16.6 Create `/frontend/src/components/AdvertiserDashboard.tsx`
+- [x] 16.7 Display quick stats (total campaigns, approved, pending)
+- [x] 16.8 Show recent campaigns list
+- [x] 16.9 Add "Create New Campaign" CTA button
+- [x] 16.10 Style with Tailwind
 
 ### Navigation Component
-- [ ] 16.11 Update `/frontend/src/components/Layout.tsx` sidebar
-- [ ] 16.12 Add navigation links based on user role
-- [ ] 16.13 Advertiser links: Dashboard, My Campaigns, Create Campaign
-- [ ] 16.14 Campaign Manager links: Approval Queue
-- [ ] 16.15 Tech Support links: Monitoring Dashboard
-- [ ] 16.16 Highlight active route
-- [ ] 16.17 Style navigation with Tailwind
+- [x] 16.11 Update `/frontend/src/components/Layout.tsx` sidebar
+- [x] 16.12 Add navigation links based on user role
+- [x] 16.13 Advertiser links: Dashboard, My Campaigns, Upload Assets
+- [x] 16.14 Campaign Manager links: Approval Queue
+- [x] 16.15 Tech Support links: Monitoring Dashboard
+- [x] 16.16 Highlight active route
+- [x] 16.17 Style navigation with Tailwind
 
 ### App Routing Updates
-- [ ] 16.18 Update `/frontend/src/App.tsx` with all routes
-- [ ] 16.19 Add route for / (Dashboard)
-- [ ] 16.20 Add route for /campaigns (My Campaigns)
-- [ ] 16.21 Add route for /campaigns/new (Create Campaign)
-- [ ] 16.22 Add route for /campaigns/:id (Email Preview)
-- [ ] 16.23 Add route for /approval-queue (Campaign Manager)
-- [ ] 16.24 Add route for /approval-queue/:id (Campaign Review)
-- [ ] 16.25 Add route for /monitoring (Tech Support)
-- [ ] 16.26 Wrap role-specific routes with permission checks
+- [x] 16.18 Update `/frontend/src/App.tsx` with all routes
+- [x] 16.19 Add route for / (Dashboard)
+- [x] 16.20 Add route for /campaigns (My Campaigns)
+- [x] 16.21 Add route for /campaigns/new (Create Campaign)
+- [x] 16.22 Add route for /campaigns/:id (Email Preview)
+- [x] 16.23 Add route for /approval-queue (Campaign Manager)
+- [x] 16.24 Add route for /approval-queue/:id (Campaign Review)
+- [x] 16.25 Add route for /monitoring (Tech Support)
+- [x] 16.26 Wrap role-specific routes with permission checks
 
 ### Permission HOC
-- [ ] 16.27 Create `/frontend/src/components/RequireRole.tsx`
-- [ ] 16.28 Accept allowedRoles prop
-- [ ] 16.29 Check current user role
-- [ ] 16.30 Redirect to dashboard if role not allowed
-- [ ] 16.31 Render children if role allowed
+- [x] 16.27 Create `/frontend/src/components/RequireRole.tsx`
+- [x] 16.28 Accept allowedRoles prop
+- [x] 16.29 Check current user role
+- [x] 16.30 Redirect to role-appropriate page if role not allowed
+- [x] 16.31 Render children if role allowed
 
 ### Testing
-- [ ] 16.32 Test advertiser sees correct dashboard and navigation
-- [ ] 16.33 Test campaign manager sees approval queue
-- [ ] 16.34 Test tech support sees monitoring dashboard
-- [ ] 16.35 Test role-based route protection
+- [x] 16.32 Test advertiser sees correct dashboard and navigation
+- [x] 16.33 Test campaign manager sees approval queue
+- [x] 16.34 Test tech support sees monitoring dashboard
+- [x] 16.35 Test role-based route protection
 
 ---
 

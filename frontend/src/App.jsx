@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { RequireRole } from '@/components/RequireRole';
 import Login from '@/pages/Login';
 import Dashboard from '@/pages/Dashboard';
 import AssetUploadPage from '@/pages/AssetUploadPage';
@@ -19,13 +20,17 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          
+          {/* Dashboard - only accessible to advertisers */}
           <Route
             path="/"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <Dashboard />
-                </Layout>
+                <RequireRole allowedRoles={['advertiser']}>
+                  <Layout>
+                    <Dashboard />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
@@ -33,19 +38,25 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <Dashboard />
-                </Layout>
+                <RequireRole allowedRoles={['advertiser']}>
+                  <Layout>
+                    <Dashboard />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
+
+          {/* Advertiser-only routes */}
           <Route
             path="/assets"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <AssetUploadPage />
-                </Layout>
+                <RequireRole allowedRoles={['advertiser']}>
+                  <Layout>
+                    <AssetUploadPage />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
@@ -53,9 +64,11 @@ function App() {
             path="/campaigns"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <MyCampaigns />
-                </Layout>
+                <RequireRole allowedRoles={['advertiser']}>
+                  <Layout>
+                    <MyCampaigns />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
@@ -63,9 +76,11 @@ function App() {
             path="/campaigns/new"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <CreateCampaign />
-                </Layout>
+                <RequireRole allowedRoles={['advertiser']}>
+                  <Layout>
+                    <CreateCampaign />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
@@ -73,19 +88,25 @@ function App() {
             path="/campaigns/:id"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <EmailPreviewPage />
-                </Layout>
+                <RequireRole allowedRoles={['advertiser']}>
+                  <Layout>
+                    <EmailPreviewPage />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
+
+          {/* Campaign Manager-only routes */}
           <Route
             path="/approval-queue"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <ApprovalQueuePage />
-                </Layout>
+                <RequireRole allowedRoles={['campaign_manager']}>
+                  <Layout>
+                    <ApprovalQueuePage />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
@@ -93,22 +114,30 @@ function App() {
             path="/approval-queue/:id"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <CampaignReviewPage />
-                </Layout>
+                <RequireRole allowedRoles={['campaign_manager']}>
+                  <Layout>
+                    <CampaignReviewPage />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
+
+          {/* Tech Support-only routes */}
           <Route
             path="/monitoring"
             element={
               <ProtectedRoute>
-                <Layout>
-                  <MonitoringPage />
-                </Layout>
+                <RequireRole allowedRoles={['tech_support']}>
+                  <Layout>
+                    <MonitoringPage />
+                  </Layout>
+                </RequireRole>
               </ProtectedRoute>
             }
           />
+
+          {/* Catch-all route */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </BrowserRouter>

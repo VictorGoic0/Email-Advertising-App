@@ -3,10 +3,44 @@
 ## Current Status
 
 **Phase**: Frontend Development  
-**Date**: PR #15 Complete  
-**Focus**: Role-based dashboard & navigation (PR #16)
+**Date**: PR #16 Complete  
+**Focus**: UI polish & final touches (PR #17)
 
 ## Recent Changes
+
+- ✅ **PR #16 Complete**: Role-based dashboard & navigation
+  - Created `AdvertiserDashboard` component (`/frontend/src/components/AdvertiserDashboard.jsx`)
+    - Displays quick stats (total campaigns, approved, pending) calculated from campaigns list
+    - Shows recent campaigns list (last 5, sorted by created_at)
+    - "Create New Campaign" CTA button
+    - Styled with Tailwind CSS
+    - Loading and empty states
+  - Updated `Dashboard` component (`/frontend/src/pages/Dashboard.jsx`)
+    - Role-based rendering: AdvertiserDashboard for advertisers, ApprovalQueue for campaign managers, PerformanceDashboard for tech support
+    - Later updated: Dashboard now only accessible to advertisers, non-advertisers redirected to their main pages
+  - Updated `Layout` component (`/frontend/src/components/Layout.jsx`)
+    - Added role-based navigation links in header
+    - Advertiser links: Dashboard, My Campaigns, Upload Assets
+    - Campaign Manager links: Approval Queue
+    - Tech Support links: Monitoring Dashboard
+    - Active route highlighting
+    - Logo link routes to role-appropriate main page
+    - Responsive navigation (hidden on mobile, shown on md+)
+  - Updated `App.jsx` routing
+    - All routes properly configured: `/`, `/dashboard`, `/campaigns`, `/campaigns/new`, `/campaigns/:id`, `/approval-queue`, `/approval-queue/:id`, `/monitoring`
+    - Dashboard route protected with `RequireRole` (advertisers only)
+    - Role-specific routes wrapped with `RequireRole` HOC
+  - Created `RequireRole` component (`/frontend/src/components/RequireRole.jsx`)
+    - HOC for role-based route protection
+    - Accepts `allowedRoles` prop
+    - Redirects to role-appropriate main page if role not allowed (campaign_manager → /approval-queue, tech_support → /monitoring, others → /dashboard)
+    - Handles loading state
+  - Key design decisions:
+    - Dashboard only accessible to advertisers (non-advertisers redirected to their main pages)
+    - "Create Campaign" removed from navigation (button still exists in AdvertiserDashboard)
+    - "Upload Assets" added to advertiser navigation
+    - Stats calculated from existing campaigns list (no new API endpoint)
+  - All tasks complete (16.1-16.35)
 
 - ✅ **PR #15 Complete**: Performance monitoring UI (Tech Support)
   - Created `useMetrics` hook (`/frontend/src/hooks/useMetrics.js`)
@@ -363,17 +397,18 @@
 
 ## Next Steps
 
-### Immediate (PR #16)
-1. **PR #16**: Role-based dashboard & navigation
-   - Dashboard component with role-based rendering
-   - Advertiser dashboard component
-   - Navigation component with role-based links
-   - App routing updates
-   - Permission HOC
+### Immediate (PR #17)
+1. **PR #17**: UI polish & final touches
+   - Loading states and skeleton loaders
+   - Error handling and user-friendly messages
+   - Empty states for lists
+   - Success messages and toast notifications
+   - Responsive design improvements
+   - Accessibility improvements
+   - Final testing
 
-### Long-term (PR #9, #16-17)
+### Long-term (PR #9, #17)
 9. **PR #9**: Backend testing (deferred)
-16. **PR #16**: Role-based dashboard & navigation
 17. **PR #17**: UI polish & final touches
 
 ## Active Decisions
@@ -389,18 +424,12 @@
 1. **Deployment timeline**: Post-MVP, but need to plan
 
 ### Decisions for PR #16 (Role-Based Dashboard & Navigation)
-1. **Campaign Visibility for Managers** (to be implemented in PR #16):
-   - **Approval Queue** (`/approval-queue`): Managers see ONLY `pending_approval` campaigns (active workflow)
-   - **View Campaigns** (`/campaigns`): Managers see ALL campaigns across all statuses (audit/visibility)
-   - **Rationale**: Approval queue is for active work, View Campaigns provides transparency and traceability
-   - **Frontend Impact**: 
-     - MyCampaigns page needs role-based logic
-     - For managers: Show all campaigns with advertiser info, status filtering
-     - For advertisers: Show only their own campaigns (current behavior)
-   - **Backend Changes Needed**:
-     - `GET /api/campaigns`: Return all campaigns for managers (not just pending_approval)
-     - `GET /api/campaigns/{campaign_id}`: Update permission checks to allow managers to view all campaigns
-   - **Note**: Only advertisers can CREATE campaigns (no change needed)
+1. **Dashboard Structure**: Keep current card-based structure, render role-specific dashboards (AdvertiserDashboard, ApprovalQueue, PerformanceDashboard) based on user role
+2. **Advertiser Stats**: Calculate stats (total, approved, pending) from existing campaigns list (no new API endpoint)
+3. **Navigation**: Keep header-only navigation, add role-based links in header
+4. **Permission HOC**: RequireRole component redirects to role-appropriate main page if role not allowed (campaign_manager → /approval-queue, tech_support → /monitoring, others → /dashboard)
+5. **Dashboard Access**: Dashboard only accessible to advertisers; non-advertisers redirected to their main pages
+6. **Navigation Links**: Removed "Create Campaign" from navigation (button still exists in AdvertiserDashboard), added "Upload Assets" to advertiser navigation
 
 ## Current Work Focus
 
@@ -420,7 +449,8 @@
 - Email preview & generation UI (PR #13) - complete ✅
 - Approval queue UI (PR #14) - complete ✅
 - Performance monitoring UI (PR #15) - complete ✅
-- Role-based dashboard & navigation (PR #16) - next
+- Role-based dashboard & navigation (PR #16) - complete ✅
+- UI polish & final touches (PR #17) - next
 
 ## Blockers & Risks
 
