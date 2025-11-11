@@ -26,7 +26,6 @@ export default function CampaignReview({ campaignId }) {
   const [showRejectionModal, setShowRejectionModal] = useState(false);
   const [approving, setApproving] = useState(false);
   const [rejecting, setRejecting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
   const [actionError, setActionError] = useState('');
 
   useEffect(() => {
@@ -40,19 +39,16 @@ export default function CampaignReview({ campaignId }) {
 
     setApproving(true);
     setActionError('');
-    setSuccessMessage('');
 
     try {
       await approveCampaign(campaignId);
-      setSuccessMessage('Campaign approved successfully!');
       
-      // Navigate back to approval queue after a short delay
-      setTimeout(() => {
-        navigate('/approval-queue');
-      }, 1500);
+      // Navigate back to approval queue with success message
+      navigate('/approval-queue', {
+        state: { successMessage: 'Campaign approved!' }
+      });
     } catch (err) {
       setActionError(err.response?.data?.detail || err.message || 'Failed to approve campaign');
-    } finally {
       setApproving(false);
     }
   };
@@ -62,17 +58,15 @@ export default function CampaignReview({ campaignId }) {
 
     setRejecting(true);
     setActionError('');
-    setSuccessMessage('');
     setShowRejectionModal(false);
 
     try {
       await rejectCampaign(campaignId, rejectionReason);
-      setSuccessMessage('Campaign rejected successfully!');
       
-      // Navigate back to approval queue after a short delay
-      setTimeout(() => {
-        navigate('/approval-queue');
-      }, 1500);
+      // Navigate back to approval queue with success message
+      navigate('/approval-queue', {
+        state: { successMessage: 'Campaign rejected!' }
+      });
     } catch (err) {
       setActionError(err.response?.data?.detail || err.message || 'Failed to reject campaign');
       setRejecting(false);
@@ -155,15 +149,6 @@ export default function CampaignReview({ campaignId }) {
           Back to Queue
         </Button>
       </div>
-
-      {/* Success Message */}
-      {successMessage && (
-        <Card className="border-green-500/20 bg-green-50/50 dark:bg-green-950/10">
-          <CardContent className="p-4">
-            <p className="text-sm text-green-700 dark:text-green-400">{successMessage}</p>
-          </CardContent>
-        </Card>
-      )}
 
       {/* Error Message */}
       {actionError && (

@@ -228,12 +228,9 @@ export function useCampaigns() {
     setError(null);
     try {
       const response = await apiClient.post(`/campaigns/${campaignId}/approve`);
-      const updatedCampaign = await fetchCampaign(campaignId);
       
-      // Update in campaigns list
-      setCampaigns((prev) =>
-        prev.map((c) => (c.id === campaignId ? updatedCampaign : c))
-      );
+      // Remove campaign from campaigns list (it's no longer pending)
+      setCampaigns((prev) => prev.filter((c) => c.id !== campaignId));
       
       return response.data;
     } catch (err) {
@@ -243,7 +240,7 @@ export function useCampaigns() {
     } finally {
       setLoading(false);
     }
-  }, [fetchCampaign]);
+  }, []);
 
   /**
    * Reject a campaign with a reason (campaign manager only)
@@ -257,12 +254,9 @@ export function useCampaigns() {
       const response = await apiClient.post(`/campaigns/${campaignId}/reject`, {
         rejection_reason: rejectionReason,
       });
-      const updatedCampaign = await fetchCampaign(campaignId);
       
-      // Update in campaigns list
-      setCampaigns((prev) =>
-        prev.map((c) => (c.id === campaignId ? updatedCampaign : c))
-      );
+      // Remove campaign from campaigns list (it's no longer pending)
+      setCampaigns((prev) => prev.filter((c) => c.id !== campaignId));
       
       return response.data;
     } catch (err) {
@@ -272,7 +266,7 @@ export function useCampaigns() {
     } finally {
       setLoading(false);
     }
-  }, [fetchCampaign]);
+  }, []);
 
   return {
     campaigns,
