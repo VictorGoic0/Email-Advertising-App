@@ -42,8 +42,12 @@ apiClient.interceptors.response.use(
       
       if (status === 401) {
         // Unauthorized - clear user and redirect to login
-        localStorage.removeItem('user');
-        window.location.href = '/login';
+        // Only redirect if we're not already on the login page
+        const currentPath = window.location.pathname;
+        if (currentPath !== '/login') {
+          localStorage.removeItem('user');
+          window.location.href = '/login';
+        }
       }
       
       // Return error with message
