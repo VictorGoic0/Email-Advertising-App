@@ -2,11 +2,27 @@
 
 ## Current Status
 
-**Phase**: Frontend Development  
-**Date**: PR #17 Complete  
-**Focus**: MVP Complete - All frontend features implemented
+**Phase**: Deployment  
+**Date**: PR #18 Complete, PR #19 In Progress  
+**Focus**: Backend deployment to Railway with PostgreSQL and production S3 bucket
 
 ## Recent Changes
+
+- ✅ **PR #18 Complete**: Frontend deployment to Netlify
+  - Created `netlify.toml` with build configuration
+  - Configured SPA routing redirects
+  - Updated README with Netlify deployment instructions
+  - Frontend deployed at: `https://email-advertising-generator.netlify.app`
+
+- 🚧 **PR #19 In Progress**: Backend deployment to Railway
+  - Created `backend/Procfile` for Railway start command
+  - Updated CORS to include Netlify URL
+  - Added `FRONTEND_URL` environment variable support
+  - Added PostgreSQL driver (`psycopg2-binary`) to requirements.txt
+  - Created production S3 bucket setup script
+  - Documented production S3 bucket: `email-assets-prod-goico`
+  - Updated README with Railway deployment instructions
+  - Railway repository connected (user completed)
 
 - ✅ **PR #17 Complete**: UI polish & final touches
   - Created `LoadingSpinner` component (`/frontend/src/components/LoadingSpinner.jsx`)

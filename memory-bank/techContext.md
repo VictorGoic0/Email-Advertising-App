@@ -26,8 +26,9 @@
 
 ### External Services
 - **File Storage**: AWS S3
-  - Dev bucket: `email-assets-dev-goico`
-  - Prod bucket: `email-assets-prod` (future)
+  - Dev bucket: `email-assets-dev-goico` (us-east-2)
+  - Prod bucket: `email-assets-prod-goico` (us-east-2)
+  - Separate buckets for environment isolation
 - **AI Services**: OpenAI API
   - GPT-3.5-turbo: Asset categorization
   - GPT-4: Email content generation
@@ -189,7 +190,8 @@ npm run dev
 
 ### Bucket Structure
 ```
-email-assets-dev-goico/
+email-assets-dev-goico/          (development)
+email-assets-prod-goico/         (production)
 ├── users/
 │   ├── {user_id}/
 │   │   ├── logos/
@@ -198,9 +200,21 @@ email-assets-dev-goico/
 │   │   └── urls/
 ```
 
+### Bucket Configuration
+- **Development**: `email-assets-dev-goico` (us-east-2)
+- **Production**: `email-assets-prod-goico` (us-east-2)
+- **Versioning**: Enabled on production bucket
+- **Public Access**: Blocked on both buckets (private)
+- **CORS**: Configured for Netlify domain (`https://email-advertising-generator.netlify.app`)
+
 ### Permissions
 - IAM policy allows: PutObject, GetObject, DeleteObject, ListBucket
 - Pre-signed URLs: 7-day expiration for file access
+- Production bucket requires separate IAM permissions
+
+### Setup Scripts
+- `scripts/setup_prod_s3_bucket.sh`: Automated production bucket creation
+- `s3-cors-prod.json`: CORS configuration for production bucket
 
 ## OpenAI Integration
 

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import apiClient from '@/lib/axios';
+import apiClient from '@/lib/axios.js';
 
 /**
  * Custom hook for managing performance metrics
