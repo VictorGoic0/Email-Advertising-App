@@ -227,6 +227,15 @@ export default function EmailPreviewPage() {
             <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
+                  variant="outline"
+                  onClick={handleSaveAsDraft}
+                  disabled={submitting}
+                  className="flex-1"
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  Save as Draft
+                </Button>
+                <Button
                   onClick={handleSubmitForApproval}
                   disabled={submitting || campaign.status !== 'draft'}
                   className="flex-1"
@@ -242,15 +251,6 @@ export default function EmailPreviewPage() {
                       Submit for Approval
                     </>
                   )}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={handleSaveAsDraft}
-                  disabled={submitting}
-                  className="flex-1"
-                >
-                  <Save className="h-4 w-4 mr-2" />
-                  Save as Draft
                 </Button>
               </div>
               {submitError && (

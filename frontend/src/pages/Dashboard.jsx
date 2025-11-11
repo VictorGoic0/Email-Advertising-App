@@ -57,7 +57,10 @@ export default function Dashboard() {
                 <CardDescription>Review pending campaigns</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">Review and approve campaigns</p>
+                <p className="text-sm text-muted-foreground mb-4">Review and approve campaigns</p>
+                <Button asChild>
+                  <Link to="/approval-queue">View Approval Queue</Link>
+                </Button>
               </CardContent>
             </Card>
           )}

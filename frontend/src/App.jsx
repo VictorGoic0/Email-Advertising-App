@@ -7,6 +7,8 @@ import AssetUploadPage from '@/pages/AssetUploadPage';
 import CreateCampaign from '@/pages/CreateCampaign';
 import MyCampaigns from '@/pages/MyCampaigns';
 import EmailPreviewPage from '@/pages/EmailPreviewPage';
+import ApprovalQueuePage from '@/pages/ApprovalQueuePage';
+import CampaignReviewPage from '@/pages/CampaignReviewPage';
 import Layout from '@/components/Layout';
 import './App.css';
 
@@ -72,6 +74,26 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <EmailPreviewPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/approval-queue"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <ApprovalQueuePage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/approval-queue/:id"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <CampaignReviewPage />
                 </Layout>
               </ProtectedRoute>
             }

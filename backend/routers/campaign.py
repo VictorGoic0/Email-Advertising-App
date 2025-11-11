@@ -130,6 +130,42 @@ async def get_campaigns(
     return campaigns
 
 
+@router.get("/approval-queue", response_model=List[CampaignResponse])
+async def get_approval_queue(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Get approval queue for campaign managers.
+    
+    Returns all campaigns with status "pending_approval", sorted by created_at (oldest first).
+    
+    Args:
+        current_user: Current authenticated user
+        db: Database session
+        
+    Returns:
+        List of CampaignResponse objects sorted by created_at (empty list if no campaigns)
+        
+    Raises:
+        HTTPException: 403 if user is not campaign_manager
+    """
+    # Verify user is campaign_manager
+    if current_user.role != "campaign_manager":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only campaign managers can access the approval queue"
+        )
+    
+    # Query campaigns with status "pending_approval"
+    campaigns = get_campaigns_by_status(db, CampaignStatus.PENDING_APPROVAL.value)
+    
+    # Sort by created_at (oldest first)
+    campaigns.sort(key=lambda c: c.created_at)
+    
+    return campaigns
+
+
 @router.get("/{campaign_id}", response_model=CampaignWithAssets)
 async def get_campaign(
     campaign_id: str,
@@ -501,42 +537,6 @@ async def submit_campaign(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to submit campaign: {str(e)}"
         )
-
-
-@router.get("/approval-queue", response_model=List[CampaignResponse])
-async def get_approval_queue(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """
-    Get approval queue for campaign managers.
-    
-    Returns all campaigns with status "pending_approval", sorted by created_at (oldest first).
-    
-    Args:
-        current_user: Current authenticated user
-        db: Database session
-        
-    Returns:
-        List of CampaignResponse objects sorted by created_at
-        
-    Raises:
-        HTTPException: 403 if user is not campaign_manager
-    """
-    # Verify user is campaign_manager
-    if current_user.role != "campaign_manager":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only campaign managers can access the approval queue"
-        )
-    
-    # Query campaigns with status "pending_approval"
-    campaigns = get_campaigns_by_status(db, CampaignStatus.PENDING_APPROVAL.value)
-    
-    # Sort by created_at (oldest first)
-    campaigns.sort(key=lambda c: c.created_at)
-    
-    return campaigns
 
 
 @router.post("/{campaign_id}/approve", response_model=SuccessMessage)

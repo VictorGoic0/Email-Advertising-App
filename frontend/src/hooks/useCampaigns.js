@@ -200,6 +200,80 @@ export function useCampaigns() {
     }
   }, [fetchCampaign]);
 
+  /**
+   * Fetch approval queue (campaign manager only)
+   */
+  const fetchApprovalQueue = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiClient.get('/campaigns/approval-queue');
+      setCampaigns(response.data);
+      return response.data;
+    } catch (err) {
+      const errorMessage = err.response?.data?.detail || err.message || 'Failed to fetch approval queue';
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  /**
+   * Approve a campaign (campaign manager only)
+   * @param {string} campaignId - The ID of the campaign to approve
+   */
+  const approveCampaign = useCallback(async (campaignId) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiClient.post(`/campaigns/${campaignId}/approve`);
+      const updatedCampaign = await fetchCampaign(campaignId);
+      
+      // Update in campaigns list
+      setCampaigns((prev) =>
+        prev.map((c) => (c.id === campaignId ? updatedCampaign : c))
+      );
+      
+      return response.data;
+    } catch (err) {
+      const errorMessage = err.response?.data?.detail || err.message || 'Failed to approve campaign';
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchCampaign]);
+
+  /**
+   * Reject a campaign with a reason (campaign manager only)
+   * @param {string} campaignId - The ID of the campaign to reject
+   * @param {string} rejectionReason - The reason for rejection
+   */
+  const rejectCampaign = useCallback(async (campaignId, rejectionReason) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await apiClient.post(`/campaigns/${campaignId}/reject`, {
+        rejection_reason: rejectionReason,
+      });
+      const updatedCampaign = await fetchCampaign(campaignId);
+      
+      // Update in campaigns list
+      setCampaigns((prev) =>
+        prev.map((c) => (c.id === campaignId ? updatedCampaign : c))
+      );
+      
+      return response.data;
+    } catch (err) {
+      const errorMessage = err.response?.data?.detail || err.message || 'Failed to reject campaign';
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchCampaign]);
+
   return {
     campaigns,
     campaign,
@@ -214,6 +288,9 @@ export function useCampaigns() {
     deleteCampaign,
     generateProof,
     submitCampaign,
+    fetchApprovalQueue,
+    approveCampaign,
+    rejectCampaign,
   };
 }
 
