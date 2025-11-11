@@ -248,21 +248,23 @@ email-assets-prod-goico/         (production)
   - Root directory: `frontend`
   - Build command: `npm run build`
   - Publish directory: `dist`
-- **Backend**: Railway ✅ (mostly complete)
+- **Backend**: Railway ✅ (complete)
+  - Deployed at: `https://email-advertising-app-production.up.railway.app`
   - Auto-deploy from `main` branch configured
   - Root directory: `backend`
   - PostgreSQL database plugin installed
   - Production S3 bucket: `email-assets-prod-goico`
-  - ⚠️ Database migration commands not working (needs investigation)
+  - ✅ Database migrations: Automatic via `start.sh` on every deploy
+  - ✅ Database seeding: Completed successfully on first deploy
 
 ### Database Migration
 - Development: SQLite (file-based, easy reset)
 - Production: PostgreSQL via Railway plugin
 - Alembic handles schema migrations
-- ⚠️ **Issue**: Railway migration commands not working
-  - Command: `railway run alembic upgrade head` - fails
-  - Root directory is `backend`, may need different command format
-  - Alternative: Use Railway web terminal or add to startup script
+- ✅ **Solution**: Automatic migrations via `backend/start.sh` startup script
+  - Migrations run automatically on every deploy
+  - Seeding completed on first deploy, then disabled
+  - No manual CLI commands needed
 
 ### Environment Variables
 - **Netlify**: Set via dashboard (Site settings → Environment variables)

@@ -89,12 +89,7 @@
   - All implementation tasks complete (7.1-7.34), testing deferred until PR #9
 
 ### In Progress
-- 🚧 **PR #19**: Backend deployment to Railway
-  - ✅ Production S3 bucket created and configured
-  - ✅ All environment variables set
-  - ✅ Auto-deploy from main branch configured
-  - ✅ Root directory set to `backend`
-  - ⚠️ Database migrations: Commands not working, needs investigation
+- None - All deployment tasks complete
 
 ### Not Started
 - ⏳ Backend testing (PR #9) - deferred to post-MVP
@@ -105,13 +100,16 @@
   - Frontend deployed at: `https://email-advertising-generator.netlify.app`
   - Auto-deploy from `main` branch configured
   - All environment variables set
-- 🚧 **PR #19**: Backend deployment to Railway - MOSTLY COMPLETE
+  - `VITE_API_URL` configured to point to Railway backend
+- ✅ **PR #19**: Backend deployment to Railway - COMPLETE
+  - Backend deployed at: `https://email-advertising-app-production.up.railway.app`
   - ✅ Production S3 bucket: `email-assets-prod-goico` created and configured
   - ✅ All environment variables set in Railway
   - ✅ Auto-deploy from `main` branch configured
   - ✅ Root directory set to `backend`
-  - ⚠️ Database migrations: Commands not working (`railway run alembic upgrade head`)
-  - ⚠️ Database seeding: Commands not working (`railway run python ../scripts/seed_database.py`)
+  - ✅ Database migrations: Automatic via `start.sh` on every deploy
+  - ✅ Database seeding: Completed successfully on first deploy
+  - ✅ Login endpoint working (401 is expected for invalid credentials)
 
 ## Implementation Status by PR
 

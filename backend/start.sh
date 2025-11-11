@@ -11,14 +11,13 @@ echo "Step 1: Running database migrations..."
 alembic upgrade head
 echo "✓ Migrations complete"
 
-# Seed database
-# IMPORTANT: Comment out this entire section after first successful deployment
+# Seed database - DISABLED (already seeded on first deploy)
+# IMPORTANT: Uncomment lines below if you need to seed again
 # -----------------------------------------------------------------------------
-echo ""
-echo "Step 2: Seeding database..."
-python scripts/seed_database.py
+# echo ""
+# echo "Step 2: Seeding database..."
+# python scripts/seed_database.py
 # -----------------------------------------------------------------------------
-# TO DISABLE SEEDING: Comment out lines 14-19 above after first successful deploy
 
 # Start the application
 echo ""
