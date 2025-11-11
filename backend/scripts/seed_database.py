@@ -119,8 +119,8 @@ def main():
     parser.add_argument(
         "--json-file",
         type=str,
-        default="../../data/seed_users.json",
-        help="Path to JSON file containing user data (default: ../../data/seed_users.json)",
+        default=None,
+        help="Path to JSON file containing user data (default: auto-resolves to ../data/seed_users.json)",
     )
     parser.add_argument(
         "--reset",
