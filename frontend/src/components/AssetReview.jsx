@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Sparkles, Loader2 } from 'lucide-react';
+import { Sparkles, Loader2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import AssetCard from './AssetCard';
+import EmptyState from '@/components/EmptyState';
 
 /**
  * AssetReview component for reviewing and managing uploaded assets
@@ -109,15 +110,11 @@ export default function AssetReview({
 
   if (assets.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-12">
-          <div className="flex flex-col items-center justify-center gap-4 text-center">
-            <p className="text-sm text-muted-foreground">
-              No assets uploaded yet. Upload some files to get started.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      <EmptyState
+        icon={Upload}
+        title="No assets uploaded yet"
+        description="Upload some files to get started with your campaigns."
+      />
     );
   }
 

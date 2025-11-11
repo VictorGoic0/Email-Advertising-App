@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { SkeletonMetricCard } from '@/components/Skeleton';
 
 /**
  * PerformanceDashboard component for displaying system performance metrics
@@ -72,6 +73,39 @@ export function PerformanceDashboard({ approvalRateDays = 7, onApprovalRateDaysC
   };
 
   const isLoading = loading.uptime || loading.proofGeneration || loading.queueDepth || loading.approvalRate;
+  const hasAnyData = uptimeMetrics && Object.keys(uptimeMetrics).length > 0;
+
+  // Show skeleton on initial load
+  if (isLoading && !hasAnyData) {
+    return (
+      <div className="space-y-6">
+        {/* Header with refresh button */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Performance Metrics</h2>
+            <p className="text-sm text-muted-foreground mt-1">Real-time system health and performance data</p>
+          </div>
+          <Button
+            onClick={handleRefresh}
+            disabled={true}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <RefreshCw className="h-4 w-4 animate-spin" />
+            Refresh
+          </Button>
+        </div>
+
+        {/* Metrics Grid Skeleton */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+            <SkeletonMetricCard key={i} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

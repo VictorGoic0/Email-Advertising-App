@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, User, Loader2 } from 'lucide-react';
+import { Calendar, User, Loader2, FileText, Plus } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useCampaigns } from '@/hooks/useCampaigns';
+import ErrorMessage from '@/components/ErrorMessage';
+import EmptyState from '@/components/EmptyState';
 
 /**
  * CampaignList component for displaying campaigns
@@ -84,27 +86,36 @@ export default function CampaignList({ statusFilter = null }) {
 
   if (error) {
     return (
-      <Card className="border-destructive">
-        <CardContent className="p-4">
-          <p className="text-sm text-destructive">{error}</p>
-        </CardContent>
-      </Card>
+      <ErrorMessage 
+        message={error} 
+        onRetry={fetchCampaigns}
+      />
     );
   }
 
   if (filteredCampaigns.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-12">
-          <div className="flex flex-col items-center justify-center gap-4 text-center">
-            <p className="text-sm text-muted-foreground">
-              {statusFilter
-                ? `No campaigns with status "${statusFilter}" found.`
-                : 'No campaigns found. Create your first campaign to get started.'}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      <EmptyState
+        icon={FileText}
+        title={
+          statusFilter
+            ? `No campaigns with status "${statusFilter}" found.`
+            : 'No campaigns found'
+        }
+        description={
+          statusFilter
+            ? 'Try selecting a different status filter or create a new campaign.'
+            : 'Create your first campaign to get started.'
+        }
+        action={
+          !statusFilter && (
+            <Button onClick={() => navigate('/campaigns/new')}>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Campaign
+            </Button>
+          )
+        }
+      />
     );
   }
 
@@ -113,8 +124,17 @@ export default function CampaignList({ statusFilter = null }) {
       {filteredCampaigns.map((campaign) => (
         <Card
           key={campaign.id}
-          className="cursor-pointer hover:shadow-md transition-shadow"
+          className="cursor-pointer hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
           onClick={() => handleCampaignClick(campaign.id)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleCampaignClick(campaign.id);
+            }
+          }}
+          tabIndex={0}
+          role="button"
+          aria-label={`View campaign: ${campaign.campaign_name}`}
         >
           <CardHeader>
             <div className="flex items-start justify-between gap-2">
@@ -145,11 +165,12 @@ export default function CampaignList({ statusFilter = null }) {
             </div>
             <Button
               variant="outline"
-              className="w-full mt-4"
+              className="w-full mt-4 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               onClick={(e) => {
                 e.stopPropagation();
                 handleCampaignClick(campaign.id);
               }}
+              aria-label={`View details for ${campaign.campaign_name}`}
             >
               View Details
             </Button>

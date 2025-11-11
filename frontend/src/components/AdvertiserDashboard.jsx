@@ -4,6 +4,7 @@ import { Plus, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useCampaigns } from '@/hooks/useCampaigns';
+import { Skeleton } from '@/components/Skeleton';
 
 /**
  * AdvertiserDashboard component - displays quick stats and recent campaigns for advertisers
@@ -68,6 +69,46 @@ export default function AdvertiserDashboard() {
     );
   };
 
+  // Show skeleton loader on initial load
+  if (loading && campaigns.length === 0) {
+    return (
+      <div className="space-y-6">
+        {/* Quick Stats Skeleton */}
+        <div className="grid gap-4 md:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <Card key={i}>
+              <CardHeader className="pb-2">
+                <Skeleton className="h-4 w-24 mb-2" />
+                <Skeleton className="h-8 w-16" />
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+
+        {/* Recent Campaigns Skeleton */}
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-48 mb-2" />
+            <Skeleton className="h-4 w-64" />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-center justify-between p-3 rounded-lg border border-border">
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                  </div>
+                  <Skeleton className="h-8 w-16" />
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Quick Stats */}
@@ -75,27 +116,21 @@ export default function AdvertiserDashboard() {
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Total Campaigns</CardDescription>
-            <CardTitle className="text-3xl">
-              {loading ? <Loader2 className="h-8 w-8 animate-spin" /> : totalCampaigns}
-            </CardTitle>
+            <CardTitle className="text-3xl">{totalCampaigns}</CardTitle>
           </CardHeader>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Approved</CardDescription>
-            <CardTitle className="text-3xl text-green-600">
-              {loading ? <Loader2 className="h-8 w-8 animate-spin" /> : approvedCampaigns}
-            </CardTitle>
+            <CardTitle className="text-3xl text-green-600">{approvedCampaigns}</CardTitle>
           </CardHeader>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
             <CardDescription>Pending</CardDescription>
-            <CardTitle className="text-3xl text-yellow-600">
-              {loading ? <Loader2 className="h-8 w-8 animate-spin" /> : pendingCampaigns}
-            </CardTitle>
+            <CardTitle className="text-3xl text-yellow-600">{pendingCampaigns}</CardTitle>
           </CardHeader>
         </Card>
       </div>
@@ -115,12 +150,7 @@ export default function AdvertiserDashboard() {
           </div>
         </CardHeader>
         <CardContent>
-          {loading && campaigns.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-4 py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">Loading campaigns...</p>
-            </div>
-          ) : recentCampaigns.length === 0 ? (
+          {recentCampaigns.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
               <p className="text-sm text-muted-foreground">
                 No campaigns yet. Create your first campaign to get started.
@@ -135,8 +165,17 @@ export default function AdvertiserDashboard() {
               {recentCampaigns.map((campaign) => (
                 <div
                   key={campaign.id}
-                  className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent transition-colors cursor-pointer"
+                  className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent transition-colors cursor-pointer focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
                   onClick={() => navigate(`/campaigns/${campaign.id}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigate(`/campaigns/${campaign.id}`);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`View campaign: ${campaign.campaign_name}`}
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -154,6 +193,8 @@ export default function AdvertiserDashboard() {
                       e.stopPropagation();
                       navigate(`/campaigns/${campaign.id}`);
                     }}
+                    className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    aria-label={`View campaign: ${campaign.campaign_name}`}
                   >
                     View
                   </Button>

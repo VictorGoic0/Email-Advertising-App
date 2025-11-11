@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import ApprovalQueue from '@/components/ApprovalQueue';
 import { useCampaigns } from '@/hooks/useCampaigns';
+import { Skeleton, SkeletonCard } from '@/components/Skeleton';
 
 /**
  * ApprovalQueuePage - Page for campaign managers to view and manage approval queue
@@ -114,7 +115,15 @@ export default function ApprovalQueuePage() {
       )}
 
       {/* Approval Queue */}
-      <ApprovalQueue campaigns={campaigns} loading={loading} onRefresh={handleRefresh} />
+      {loading && campaigns.length === 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
+      ) : (
+        <ApprovalQueue campaigns={campaigns} loading={loading} onRefresh={handleRefresh} />
+      )}
     </div>
   );
 }

@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   DropdownMenu,
@@ -15,6 +16,7 @@ import {
 export default function Layout({ children }) {
   const { user, logout } = useAuth();
   const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const getRoleDisplayName = (role) => {
     const roleMap = {
@@ -71,7 +73,7 @@ export default function Layout({ children }) {
             </Link>
             
             <div className="flex items-center gap-4">
-              {/* Navigation Links */}
+              {/* Desktop Navigation Links */}
               {navigationLinks.length > 0 && (
                 <nav className="hidden md:flex items-center gap-1">
                   {navigationLinks.map((link) => (
@@ -79,11 +81,12 @@ export default function Layout({ children }) {
                       key={link.path}
                       to={link.path}
                       className={cn(
-                        'px-3 py-2 rounded-md text-sm font-medium transition-colors',
+                        'px-3 py-2 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
                         isActive(link.path)
                           ? 'bg-primary text-primary-foreground'
                           : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                       )}
+                      aria-current={isActive(link.path) ? 'page' : undefined}
                     >
                       {link.label}
                     </Link>
@@ -91,9 +94,31 @@ export default function Layout({ children }) {
                 </nav>
               )}
 
+              {/* Mobile Menu Button */}
+              {navigationLinks.length > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="md:hidden"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-label="Toggle navigation menu"
+                  aria-expanded={mobileMenuOpen}
+                >
+                  {mobileMenuOpen ? (
+                    <X className="h-5 w-5" />
+                  ) : (
+                    <Menu className="h-5 w-5" />
+                  )}
+                </Button>
+              )}
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-2">
+                  <Button 
+                    variant="ghost" 
+                    className="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    aria-label="User menu"
+                  >
                     <User className="h-4 w-4" />
                     <span className="hidden sm:inline">{user?.full_name}</span>
                   </Button>
@@ -107,7 +132,10 @@ export default function Layout({ children }) {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout} className="text-destructive cursor-pointer">
+                  <DropdownMenuItem 
+                    onClick={logout} 
+                    className="text-destructive cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout
                   </DropdownMenuItem>
@@ -117,6 +145,42 @@ export default function Layout({ children }) {
           </div>
         </div>
       </header>
+
+      {/* Mobile Navigation Menu */}
+      {mobileMenuOpen && navigationLinks.length > 0 && (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          {/* Menu Panel */}
+          <nav
+            className="fixed top-16 left-0 right-0 bg-white border-b border-border shadow-lg z-50 md:hidden"
+            aria-label="Mobile navigation"
+          >
+            <div className="container mx-auto px-4 py-4 space-y-1">
+              {navigationLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    'block px-4 py-3 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+                    isActive(link.path)
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  )}
+                  aria-current={isActive(link.path) ? 'page' : undefined}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+        </>
+      )}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">

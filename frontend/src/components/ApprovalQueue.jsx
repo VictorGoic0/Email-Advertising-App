@@ -4,6 +4,8 @@ import { Calendar, User, Loader2, Mail } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useCampaigns } from '@/hooks/useCampaigns';
+import ErrorMessage from '@/components/ErrorMessage';
+import EmptyState from '@/components/EmptyState';
 
 /**
  * ApprovalQueue component for displaying pending campaigns
@@ -87,29 +89,38 @@ export default function ApprovalQueue({ campaigns = [], loading = false, onRefre
 
   if (error) {
     return (
-      <Card className="border-destructive">
-        <CardContent className="p-4">
-          <p className="text-sm text-destructive">{error}</p>
-        </CardContent>
-      </Card>
+      <ErrorMessage 
+        message={error} 
+        onRetry={() => {
+          if (!isControlled) {
+            const loadQueue = async () => {
+              setInternalLoading(true);
+              setError(null);
+              try {
+                const data = await fetchApprovalQueue();
+                setInternalCampaigns(data || []);
+              } catch (err) {
+                setError(err.message || 'Failed to load approval queue');
+              } finally {
+                setInternalLoading(false);
+              }
+            };
+            loadQueue();
+          } else if (onRefresh) {
+            onRefresh();
+          }
+        }}
+      />
     );
   }
 
   if (displayCampaigns.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-12">
-          <div className="flex flex-col items-center justify-center gap-4 text-center">
-            <Mail className="h-12 w-12 text-muted-foreground" />
-            <div>
-              <p className="text-sm font-medium text-foreground">No campaigns pending approval</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                The approval queue is empty. All campaigns have been reviewed.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <EmptyState
+        icon={Mail}
+        title="No campaigns pending approval"
+        description="The approval queue is empty. All campaigns have been reviewed."
+      />
     );
   }
 
@@ -121,8 +132,17 @@ export default function ApprovalQueue({ campaigns = [], loading = false, onRefre
         return (
           <Card
             key={campaign.id}
-            className="cursor-pointer hover:shadow-md transition-shadow"
+            className="cursor-pointer hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2"
             onClick={() => handleCampaignClick(campaign.id)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleCampaignClick(campaign.id);
+              }
+            }}
+            tabIndex={0}
+            role="button"
+            aria-label={`Review campaign: ${campaign.campaign_name}`}
           >
             <CardHeader>
               <div className="flex items-start justify-between gap-2">
@@ -170,11 +190,12 @@ export default function ApprovalQueue({ campaigns = [], loading = false, onRefre
               </div>
               <Button
                 variant="outline"
-                className="w-full mt-4"
+                className="w-full mt-4 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleCampaignClick(campaign.id);
                 }}
+                aria-label={`Review campaign: ${campaign.campaign_name}`}
               >
                 Review Campaign
               </Button>
