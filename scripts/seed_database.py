@@ -66,33 +66,29 @@ def insert_users(db_session, users_data: list) -> int:
     return inserted_count
 
 
-def main():
-    """Main function to seed database."""
-    parser = argparse.ArgumentParser(description="Seed database with user data")
-    parser.add_argument(
-        "--json-file",
-        type=str,
-        default="../data/seed_users.json",
-        help="Path to JSON file containing user data (default: ../data/seed_users.json)",
-    )
-    parser.add_argument(
-        "--reset",
-        action="store_true",
-        help="Drop all tables and recreate them before seeding",
-    )
+def seed_database(json_file: str = None, reset: bool = False):
+    """Programmatic function to seed database.
     
-    args = parser.parse_args()
-    
-    # Resolve JSON file path
-    json_path = Path(__file__).resolve().parent / args.json_file
-    if not json_path.exists():
-        json_path = Path(args.json_file)
+    Args:
+        json_file: Path to JSON file (default: auto-resolves to data/seed_users.json)
+        reset: Whether to drop and recreate tables before seeding
+    """
+    # Auto-resolve JSON file path if not provided
+    if json_file is None:
+        # Try to find the JSON file from project root
+        json_path = Path(__file__).resolve().parent.parent / "data" / "seed_users.json"
         if not json_path.exists():
-            print(f"Error: JSON file not found: {json_path}")
-            sys.exit(1)
+            # Fallback to relative path
+            json_path = Path(__file__).resolve().parent / ".." / "data" / "seed_users.json"
+    else:
+        json_path = Path(json_file)
+    
+    if not json_path.exists():
+        print(f"Error: JSON file not found: {json_path}")
+        raise FileNotFoundError(f"Seed data file not found: {json_path}")
     
     # Reset database if requested
-    if args.reset:
+    if reset:
         print("Dropping all tables...")
         Base.metadata.drop_all(bind=engine)
         print("Creating all tables...")
@@ -110,13 +106,38 @@ def main():
     try:
         # Insert users
         inserted_count = insert_users(db, users_data)
-        print(f"\nSuccessfully inserted {inserted_count} users")
+        print(f"Successfully inserted {inserted_count} users")
+        return inserted_count
     except Exception as e:
         print(f"Error inserting users: {e}")
         db.rollback()
-        sys.exit(1)
+        raise
     finally:
         db.close()
+
+
+def main():
+    """Main function to seed database."""
+    parser = argparse.ArgumentParser(description="Seed database with user data")
+    parser.add_argument(
+        "--json-file",
+        type=str,
+        default="../data/seed_users.json",
+        help="Path to JSON file containing user data (default: ../data/seed_users.json)",
+    )
+    parser.add_argument(
+        "--reset",
+        action="store_true",
+        help="Drop all tables and recreate them before seeding",
+    )
+    
+    args = parser.parse_args()
+    
+    try:
+        seed_database(json_file=args.json_file, reset=args.reset)
+    except Exception as e:
+        print(f"Seeding failed: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

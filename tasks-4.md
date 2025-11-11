@@ -114,15 +114,17 @@
 
 ### Database Migration Strategy
 - [x] 19.33: Document migration process in README (manual via Railway CLI)
-- [ ] 19.34: Run migrations manually via Railway CLI after first deploy: `railway run alembic upgrade head` ⚠️ **ISSUE**: Command not working, needs investigation
-- [ ] 19.35: Verify migrations completed successfully (check Railway logs)
-- [ ] 19.36: Document alternative: Add migration command to startup (if needed for future)
+- [x] 19.34: ~~Run migrations manually via Railway CLI~~ **SOLUTION**: Created startup script with automatic migrations
+- [x] 19.35: Created `backend/start.sh` that runs migrations on startup
+- [x] 19.36: Updated Procfile to use startup script instead of direct uvicorn command
 
 ### Database Seeding (Production)
-- [x] 19.37: Decide on seed data strategy: Manual run via Railway CLI (user confirmed)
-- [ ] 19.38: Run seed script via Railway CLI: `railway run python ../scripts/seed_database.py` ⚠️ **ISSUE**: Command not working, needs investigation
-- [x] 19.39: Document seed process in README (instructions added)
-- [ ] 19.40: Verify seeded users are accessible (test login endpoint)
+- [x] 19.37: Decide on seed data strategy: Automatic on first deploy via startup script
+- [x] 19.38: Added seed script to startup script (runs on first deploy)
+- [x] 19.39: Updated seed_database.py with programmatic `seed_database()` function
+- [ ] 19.40: Deploy to Railway and verify seeding works (check logs for "Successfully inserted X users")
+- [ ] 19.41: After successful first deploy, comment out seeding section in start.sh (lines 16-25)
+- [ ] 19.42: Verify seeded users are accessible (test login endpoint)
 
 ### Production Dependencies
 - [x] 19.41: Verify all dependencies are production-ready (requirements.txt reviewed)
@@ -179,8 +181,9 @@
 - [x] Set root directory to `backend` (user completed)
 
 **Database Operations:**
-- [ ] Run Alembic migrations: `railway run alembic upgrade head` ⚠️ **ISSUE**: Command not working - Railway root directory is `backend`, may need different command format
-- [ ] Seed production users: `railway run python ../scripts/seed_database.py` ⚠️ **ISSUE**: Command not working - may need absolute path or different approach
+- [x] ~~Run Alembic migrations~~ **AUTOMATED**: Migrations run automatically via `start.sh` on every deploy
+- [x] ~~Seed production users~~ **AUTOMATED**: Seeding runs automatically on first deploy via `start.sh`
+- [ ] After first successful deploy: Comment out seeding section in `backend/start.sh` (lines 16-25)
 
 **Testing:**
 - [ ] All API endpoints

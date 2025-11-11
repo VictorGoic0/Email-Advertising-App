@@ -89,12 +89,29 @@
   - All implementation tasks complete (7.1-7.34), testing deferred until PR #9
 
 ### In Progress
-- None - MVP complete
+- 🚧 **PR #19**: Backend deployment to Railway
+  - ✅ Production S3 bucket created and configured
+  - ✅ All environment variables set
+  - ✅ Auto-deploy from main branch configured
+  - ✅ Root directory set to `backend`
+  - ⚠️ Database migrations: Commands not working, needs investigation
 
 ### Not Started
 - ⏳ Backend testing (PR #9) - deferred to post-MVP
-- ⏳ Deployment - post-MVP
 - ⏳ Security hardening - post-MVP
+
+### Deployment Status
+- ✅ **PR #18**: Frontend deployment to Netlify - COMPLETE
+  - Frontend deployed at: `https://email-advertising-generator.netlify.app`
+  - Auto-deploy from `main` branch configured
+  - All environment variables set
+- 🚧 **PR #19**: Backend deployment to Railway - MOSTLY COMPLETE
+  - ✅ Production S3 bucket: `email-assets-prod-goico` created and configured
+  - ✅ All environment variables set in Railway
+  - ✅ Auto-deploy from `main` branch configured
+  - ✅ Root directory set to `backend`
+  - ⚠️ Database migrations: Commands not working (`railway run alembic upgrade head`)
+  - ⚠️ Database seeding: Commands not working (`railway run python ../scripts/seed_database.py`)
 
 ## Implementation Status by PR
 
