@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Trash2, FileText, Image as ImageIcon, Link as LinkIcon, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils.js';
 
 /**
  * AssetCard component for displaying individual assets

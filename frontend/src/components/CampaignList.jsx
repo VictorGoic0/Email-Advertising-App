@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Calendar, User, Loader2, FileText, Plus } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils.js';
 import { useCampaigns } from '@/hooks/useCampaigns';
 import ErrorMessage from '@/components/ErrorMessage';
 import EmptyState from '@/components/EmptyState';

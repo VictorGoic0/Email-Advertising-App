@@ -3,7 +3,7 @@ import { Sparkles, Loader2, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils.js';
 import AssetCard from './AssetCard';
 import EmptyState from '@/components/EmptyState';
 

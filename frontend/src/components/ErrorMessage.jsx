@@ -1,7 +1,7 @@
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils.js';
 
 /**
  * ErrorMessage - Reusable error message component with optional retry

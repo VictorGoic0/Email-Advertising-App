@@ -3,7 +3,7 @@ import { useMetrics } from '@/hooks/useMetrics';
 import { MetricCard, getUptimeStatus, getProofGenerationStatus, getApprovalRateStatus } from '@/components/MetricCard';
 import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils.js';
 import {
   DropdownMenu,
   DropdownMenuContent,

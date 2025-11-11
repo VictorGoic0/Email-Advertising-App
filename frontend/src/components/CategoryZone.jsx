@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Image, FileText, Link as LinkIcon, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils.js';
 
 const CATEGORIES = [
   { id: 'logo', label: 'Logos', icon: Image, color: 'bg-blue-50 border-blue-200 hover:bg-blue-100' },
