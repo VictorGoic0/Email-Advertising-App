@@ -9,6 +9,7 @@ import MyCampaigns from '@/pages/MyCampaigns';
 import EmailPreviewPage from '@/pages/EmailPreviewPage';
 import ApprovalQueuePage from '@/pages/ApprovalQueuePage';
 import CampaignReviewPage from '@/pages/CampaignReviewPage';
+import MonitoringPage from '@/pages/MonitoringPage';
 import Layout from '@/components/Layout';
 import './App.css';
 
@@ -94,6 +95,16 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <CampaignReviewPage />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/monitoring"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <MonitoringPage />
                 </Layout>
               </ProtectedRoute>
             }

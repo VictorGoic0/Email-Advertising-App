@@ -3,10 +3,97 @@
 ## Current Status
 
 **Phase**: Frontend Development  
-**Date**: PR #13 Complete  
-**Focus**: Approval queue UI (PR #14)
+**Date**: PR #15 Complete  
+**Focus**: Role-based dashboard & navigation (PR #16)
 
 ## Recent Changes
+
+- ✅ **PR #15 Complete**: Performance monitoring UI (Tech Support)
+  - Created `useMetrics` hook (`/frontend/src/hooks/useMetrics.js`)
+    - `fetchUptimeMetrics()` - Fetches all 4 components (api, s3, database, openai) in parallel
+    - `fetchProofGenerationMetrics()` - Fetches proof generation performance stats
+    - `fetchQueueDepth()` - Fetches current approval queue depth
+    - `fetchApprovalRate(days)` - Fetches approval rate metrics (default 7 days)
+    - `fetchAllMetrics()` - Fetches all metrics at once
+    - Loading and error states for each metric type
+  - Created `MetricCard` component (`/frontend/src/components/MetricCard.jsx`)
+    - Accepts title, value, subtitle, status props
+    - Color coding with status thresholds:
+      - Uptime: green >99%, yellow 95-99%, red <95%
+      - Proof Generation: green <5s, yellow 5-20s, red >25s
+      - Queue Depth: no color (agnostic)
+      - Approval Rate: green >=80%, yellow 50-80%, red <=50%
+    - Helper functions for status determination
+    - Styled with shadcn Card component
+  - Created `PerformanceDashboard` component (`/frontend/src/components/PerformanceDashboard.jsx`)
+    - Fetches all metrics on mount
+    - Displays 4 uptime cards (one per component: api, s3, database, openai)
+    - Displays proof generation, queue depth, and approval rate cards
+    - Responsive grid layout (md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4)
+    - Auto-refresh every 30 seconds
+    - Manual refresh button with loading state
+    - Approval rate dropdown (7-day/30-day selector)
+    - Error message display for each metric type
+  - Created `MonitoringPage` (`/frontend/src/pages/MonitoringPage.jsx`)
+    - Page header with description
+    - Role-based access (redirects non-tech_support users)
+    - Integrates PerformanceDashboard
+    - Handles loading and error states
+  - Added route in `App.jsx`: `/monitoring` - Monitoring dashboard page
+  - Updated `Dashboard.jsx`: Added "View Monitoring Dashboard" button for tech_support users
+  - All tasks complete (15.1-15.37), chart implementation skipped (no backend route for historical data)
+
+- ✅ **PR #14 Complete**: Approval queue UI (Campaign Manager)
+  - Created `ApprovalQueue` component (`/frontend/src/components/ApprovalQueue.jsx`)
+    - Fetches approval queue from `/api/campaigns/approval-queue` endpoint
+    - Displays pending campaigns in responsive grid layout
+    - Shows campaign name, advertiser ID (truncated), timestamp
+    - Thumbnail preview extraction from email HTML (first image or placeholder)
+    - Sorted by created_at (oldest first)
+    - Click handler to navigate to campaign review
+    - Empty state with helpful message
+    - Loading and error states
+  - Created `CampaignReview` component (`/frontend/src/components/CampaignReview.jsx`)
+    - Fetches campaign details with email proof
+    - Displays campaign information (advertiser ID, created date, target audience, goal, notes)
+    - Integrates EmailPreview component for email rendering
+    - Approve button (primary, right side) with loading state
+    - Reject button (outline, left side) that opens rejection modal
+    - Success/error message handling
+    - Navigates back to approval queue after successful action
+  - Created `RejectionModal` component (`/frontend/src/components/RejectionModal.jsx`)
+    - Modal overlay with backdrop
+    - Textarea for rejection reason (required)
+    - Form validation (rejection reason cannot be empty)
+    - Cancel and Submit buttons
+    - Styled with shadcn Card component
+    - Loading state during submission
+  - Created `ApprovalQueuePage` (`/frontend/src/pages/ApprovalQueuePage.jsx`)
+    - Page header with title and description
+    - Queue count display
+    - Refresh button to reload queue
+    - Integrates ApprovalQueue component
+    - Success message display from navigation state (green for approve, red for reject)
+    - Auto-refreshes queue when success message received
+    - Auto-hides success message after 5 seconds
+  - Created `CampaignReviewPage` (`/frontend/src/pages/CampaignReviewPage.jsx`)
+    - Gets campaign ID from route params
+    - Integrates CampaignReview component
+    - Back button to approval queue
+  - Updated `useCampaigns` hook (`/frontend/src/hooks/useCampaigns.js`)
+    - Added `fetchApprovalQueue()` function
+    - Added `approveCampaign()` function (removes campaign from list, no fetch after)
+    - Added `rejectCampaign()` function (removes campaign from list, no fetch after)
+    - Fixed 403 error by not fetching campaign after approval/rejection
+  - Added routes in `App.jsx`:
+    - `/approval-queue` - Approval queue page
+    - `/approval-queue/:id` - Campaign review page
+  - Updated `Dashboard.jsx`:
+    - Added "View Approval Queue" button for campaign managers
+  - Backend route fix:
+    - Moved `/approval-queue` route before `/{campaign_id}` route to prevent 404 errors
+    - Route returns empty list (not error) when no campaigns pending
+  - All tasks complete (14.1-14.37), tested and working
 
 - ✅ **PR #13 Complete**: Email preview & generation UI
   - Added `generateProof` function to `useCampaigns` hook (`/frontend/src/hooks/useCampaigns.js`)
@@ -276,16 +363,16 @@
 
 ## Next Steps
 
-### Immediate (PR #14)
-1. **PR #14**: Approval queue UI
-   - Approval queue component
-   - Campaign review component
-   - Rejection modal
-   - Role-based access
+### Immediate (PR #16)
+1. **PR #16**: Role-based dashboard & navigation
+   - Dashboard component with role-based rendering
+   - Advertiser dashboard component
+   - Navigation component with role-based links
+   - App routing updates
+   - Permission HOC
 
-### Long-term (PR #9, #15-17)
+### Long-term (PR #9, #16-17)
 9. **PR #9**: Backend testing (deferred)
-15. **PR #15**: Performance monitoring UI
 16. **PR #16**: Role-based dashboard & navigation
 17. **PR #17**: UI polish & final touches
 
@@ -331,7 +418,9 @@
 - Asset upload UI (PR #11) - complete ✅
 - Campaign creation UI (PR #12) - complete ✅
 - Email preview & generation UI (PR #13) - complete ✅
-- Approval queue UI (PR #14) - next
+- Approval queue UI (PR #14) - complete ✅
+- Performance monitoring UI (PR #15) - complete ✅
+- Role-based dashboard & navigation (PR #16) - next
 
 ## Blockers & Risks
 

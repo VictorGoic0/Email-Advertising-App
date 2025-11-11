@@ -110,53 +110,53 @@
 **Branch**: `feature/approval-queue-ui`
 
 ### Approval Queue Component
-- [ ] 14.1 Create `/frontend/src/components/ApprovalQueue.tsx`
-- [ ] 14.2 Fetch approval queue from API
-- [ ] 14.3 Display pending campaigns in list/grid
-- [ ] 14.4 Show campaign name, advertiser name, timestamp
-- [ ] 14.5 Add thumbnail preview of email
-- [ ] 14.6 Sort campaigns by created_at (oldest first)
-- [ ] 14.7 Add click handler to view full campaign
-- [ ] 14.8 Style with Tailwind
+- [x] 14.1 Create `/frontend/src/components/ApprovalQueue.tsx`
+- [x] 14.2 Fetch approval queue from API
+- [x] 14.3 Display pending campaigns in list/grid
+- [x] 14.4 Show campaign name, advertiser name, timestamp
+- [x] 14.5 Add thumbnail preview of email
+- [x] 14.6 Sort campaigns by created_at (oldest first)
+- [x] 14.7 Add click handler to view full campaign
+- [x] 14.8 Style with Tailwind
 
 ### Campaign Review Component
-- [ ] 14.9 Create `/frontend/src/components/CampaignReview.tsx`
-- [ ] 14.10 Fetch campaign details with email proof
-- [ ] 14.11 Display campaign information
-- [ ] 14.12 Integrate EmailPreview component
-- [ ] 14.13 Add "Approve" button
-- [ ] 14.14 Add "Reject" button
-- [ ] 14.15 Show rejection reason modal on reject
-- [ ] 14.16 Implement approval API call
-- [ ] 14.17 Implement rejection API call with reason
-- [ ] 14.18 Show success message after approval/rejection
-- [ ] 14.19 Navigate back to approval queue
+- [x] 14.9 Create `/frontend/src/components/CampaignReview.tsx`
+- [x] 14.10 Fetch campaign details with email proof
+- [x] 14.11 Display campaign information
+- [x] 14.12 Integrate EmailPreview component
+- [x] 14.13 Add "Approve" button
+- [x] 14.14 Add "Reject" button
+- [x] 14.15 Show rejection reason modal on reject
+- [x] 14.16 Implement approval API call
+- [x] 14.17 Implement rejection API call with reason
+- [x] 14.18 Show success message after approval/rejection
+- [x] 14.19 Navigate back to approval queue
 
 ### Rejection Modal
-- [ ] 14.20 Create `/frontend/src/components/RejectionModal.tsx`
-- [ ] 14.21 Add textarea for rejection reason
-- [ ] 14.22 Validate rejection reason is not empty
-- [ ] 14.23 Add "Cancel" and "Submit" buttons
-- [ ] 14.24 Style modal with shadcn dialog component
+- [x] 14.20 Create `/frontend/src/components/RejectionModal.tsx`
+- [x] 14.21 Add textarea for rejection reason
+- [x] 14.22 Validate rejection reason is not empty
+- [x] 14.23 Add "Cancel" and "Submit" buttons
+- [x] 14.24 Style modal with shadcn dialog component
 
 ### Approval Queue Page
-- [ ] 14.25 Create `/frontend/src/pages/ApprovalQueuePage.tsx`
-- [ ] 14.26 Integrate ApprovalQueue component
-- [ ] 14.27 Add page header with queue count
-- [ ] 14.28 Add refresh button to reload queue
-- [ ] 14.29 Handle empty queue state
+- [x] 14.25 Create `/frontend/src/pages/ApprovalQueuePage.tsx`
+- [x] 14.26 Integrate ApprovalQueue component
+- [x] 14.27 Add page header with queue count
+- [x] 14.28 Add refresh button to reload queue
+- [x] 14.29 Handle empty queue state
 
 ### Campaign Review Page
-- [ ] 14.30 Create `/frontend/src/pages/CampaignReviewPage.tsx`
-- [ ] 14.31 Get campaign ID from route params
-- [ ] 14.32 Integrate CampaignReview component
-- [ ] 14.33 Add back button to queue
+- [x] 14.30 Create `/frontend/src/pages/CampaignReviewPage.tsx`
+- [x] 14.31 Get campaign ID from route params
+- [x] 14.32 Integrate CampaignReview component
+- [x] 14.33 Add back button to queue
 
 ### Testing
-- [ ] 14.34 Test approval queue displays correctly
-- [ ] 14.35 Test campaign approval flow
-- [ ] 14.36 Test campaign rejection with reason
-- [ ] 14.37 Test navigation between queue and review
+- [x] 14.34 Test approval queue displays correctly
+- [x] 14.35 Test campaign approval flow
+- [x] 14.36 Test campaign rejection with reason
+- [x] 14.37 Test navigation between queue and review
 
 ---
 
@@ -165,51 +165,57 @@
 **Branch**: `feature/monitoring-ui`
 
 ### Metrics Hooks
-- [ ] 15.1 Create `/frontend/src/hooks/useMetrics.ts`
-- [ ] 15.2 Implement fetchUptimeMetrics function
-- [ ] 15.3 Implement fetchProofGenerationMetrics function
-- [ ] 15.4 Implement fetchQueueDepth function
-- [ ] 15.5 Implement fetchApprovalRate function
-- [ ] 15.6 Add loading and error states for each
+- [x] 15.1 Create `/frontend/src/hooks/useMetrics.js`
+- [x] 15.2 Implement fetchUptimeMetrics function (fetch all 4 components: api, s3, database, openai)
+- [x] 15.3 Implement fetchProofGenerationMetrics function
+- [x] 15.4 Implement fetchQueueDepth function
+- [x] 15.5 Implement fetchApprovalRate function (accepts days parameter, default 7)
+- [x] 15.6 Add loading and error states for each
 
 ### Metric Card Component
-- [ ] 15.7 Create `/frontend/src/components/MetricCard.tsx`
-- [ ] 15.8 Accept title, value, subtitle, status props
-- [ ] 15.9 Style card with shadcn Card component
-- [ ] 15.10 Add color coding for status (green/yellow/red)
-- [ ] 15.11 Display large value text
-- [ ] 15.12 Display subtitle text
+- [x] 15.7 Create `/frontend/src/components/MetricCard.jsx`
+- [x] 15.8 Accept title, value, subtitle, status props
+- [x] 15.9 Style card with shadcn Card component
+- [x] 15.10 Add color coding for status (green/yellow/red) with thresholds:
+  - **Uptime**: green >99%, yellow 95-99%, red <95%
+  - **Proof Generation**: green <5s, yellow 5-20s, red >25s
+  - **Queue Depth**: no color (agnostic)
+  - **Approval Rate**: green >=80%, yellow 50-80%, red <=50%
+- [x] 15.11 Display large value text
+- [x] 15.12 Display subtitle text
 
 ### Performance Dashboard Component
-- [ ] 15.13 Create `/frontend/src/components/PerformanceDashboard.tsx`
-- [ ] 15.14 Fetch all metrics on mount
-- [ ] 15.15 Display MetricCard for API uptime
-- [ ] 15.16 Display MetricCard for avg proof generation time
-- [ ] 15.17 Display MetricCard for queue depth
-- [ ] 15.18 Display MetricCard for approval rate
-- [ ] 15.19 Layout cards in responsive grid
-- [ ] 15.20 Add auto-refresh every 30 seconds
-- [ ] 15.21 Add manual refresh button
+- [x] 15.13 Create `/frontend/src/components/PerformanceDashboard.jsx`
+- [x] 15.14 Fetch all metrics on mount (4 uptime components + proof generation + queue depth + approval rate)
+- [x] 15.15 Display MetricCard for each uptime component (api, s3, database, openai) - 4 cards total
+- [x] 15.16 Display MetricCard for avg proof generation time
+- [x] 15.17 Display MetricCard for queue depth
+- [x] 15.18 Display MetricCard for approval rate (with 7-day/30-day dropdown selector)
+- [x] 15.19 Layout cards in responsive grid
+- [x] 15.20 Add auto-refresh every 30 seconds
+- [x] 15.21 Add manual refresh button
 
 ### Proof Generation Chart (Optional)
-- [ ] 15.22 Install chart library (recharts or similar)
-- [ ] 15.23 Create `/frontend/src/components/ProofGenerationChart.tsx`
-- [ ] 15.24 Fetch historical proof generation times
-- [ ] 15.25 Render line chart showing trend
-- [ ] 15.26 Style chart with Tailwind
+- [x] 15.22 ~~Install chart library (recharts or similar)~~ **SKIPPED** - No backend route for historical data
+- [x] 15.23 ~~Create `/frontend/src/components/ProofGenerationChart.tsx`~~ **SKIPPED**
+- [x] 15.24 ~~Fetch historical proof generation times~~ **SKIPPED**
+- [x] 15.25 ~~Render line chart showing trend~~ **SKIPPED**
+- [x] 15.26 ~~Style chart with Tailwind~~ **SKIPPED**
 
 ### Monitoring Page
-- [ ] 15.27 Create `/frontend/src/pages/MonitoringPage.tsx`
-- [ ] 15.28 Integrate PerformanceDashboard component
-- [ ] 15.29 Add page header
-- [ ] 15.30 Handle loading state
-- [ ] 15.31 Handle error state
+- [x] 15.27 Create `/frontend/src/pages/MonitoringPage.jsx`
+- [x] 15.28 Integrate PerformanceDashboard component
+- [x] 15.29 Add page header
+- [x] 15.30 Handle loading state
+- [x] 15.31 Handle error state
+- [x] 15.32 Add approval rate time period dropdown (7-day default, 7-day/30-day options)
 
 ### Testing
-- [ ] 15.32 Test metrics display correctly
-- [ ] 15.33 Test auto-refresh functionality
-- [ ] 15.34 Test manual refresh button
-- [ ] 15.35 Verify color coding for different statuses
+- [x] 15.33 Test metrics display correctly (all 4 uptime components)
+- [x] 15.34 Test auto-refresh functionality
+- [x] 15.35 Test manual refresh button
+- [x] 15.36 Verify color coding for different statuses (uptime, proof generation, approval rate)
+- [x] 15.37 Test approval rate time period dropdown (7-day/30-day switching)
 
 ---
 

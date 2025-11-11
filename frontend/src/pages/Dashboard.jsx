@@ -68,11 +68,14 @@ export default function Dashboard() {
           {user?.role === 'tech_support' && (
             <Card>
               <CardHeader>
-                <CardTitle>Metrics</CardTitle>
-                <CardDescription>System performance</CardDescription>
+                <CardTitle>Performance Monitoring</CardTitle>
+                <CardDescription>System performance metrics</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">View system health and metrics</p>
+                <p className="text-sm text-muted-foreground mb-4">Monitor system health and performance</p>
+                <Button asChild>
+                  <Link to="/monitoring">View Monitoring Dashboard</Link>
+                </Button>
               </CardContent>
             </Card>
           )}

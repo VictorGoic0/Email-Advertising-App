@@ -917,7 +917,12 @@ export function Dashboard() {
 ### 1. API Uptime
 - **Metric**: Percentage of successful health check responses in last 24 hours
 - **Calculation**: `(successful_checks / total_checks) * 100`
-- **Display**: Large percentage with color coding (green >99%, yellow 95-99%, red <95%)
+- **Display**: Large percentage with color coding
+- **Color Coding Thresholds**:
+  - **Green**: >99% uptime
+  - **Yellow**: 95-99% uptime
+  - **Red**: <95% uptime
+- **Components Monitored**: API, S3, Database, OpenAI (4 separate cards)
 
 ### 2. Proof Generation Latency
 - **Metrics**: 
@@ -925,18 +930,26 @@ export function Dashboard() {
   - P50, P95, P99 percentiles
   - Last 100 generations chart
 - **Target**: <5 seconds average
-- **Display**: Line chart showing trend over time
+- **Display**: Metric card with average time and percentiles. Line chart showing trend over time
+- **Color Coding Thresholds**:
+  - **Green**: <5 seconds average
+  - **Yellow**: 5-20 seconds average
+  - **Red**: >25 seconds average
 
 ### 3. Queue Depth
 - **Metric**: Current number of campaigns with status `pending_approval`
 - **Calculation**: `SELECT COUNT(*) FROM campaigns WHERE status = 'pending_approval'`
-- **Display**: Real-time counter with historical trend
+- **Display**: Real-time counter (no color coding - agnostic metric)
 
 ### 4. Approval Rate
 - **Metric**: Percentage of campaigns approved vs rejected
 - **Calculation**: `(COUNT(approved) / COUNT(approved + rejected)) * 100`
-- **Time Range**: Last 7 days, last 30 days
-- **Display**: Pie chart + percentage
+- **Time Range**: Last 7 days (default), last 30 days (selectable via dropdown)
+- **Display**: Metric card with percentage and breakdown
+- **Color Coding Thresholds**:
+  - **Green**: >=80% approval rate
+  - **Yellow**: 50-80% approval rate
+  - **Red**: <=50% approval rate
 
 **Technical Implementation**:
 
