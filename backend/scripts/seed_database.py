@@ -5,8 +5,8 @@ import sys
 import argparse
 from pathlib import Path
 
-# Add backend directory to path
-backend_path = Path(__file__).resolve().parent.parent / "backend"
+# Add backend directory to path (we're in backend/backend-scripts/, so go up one level)
+backend_path = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(backend_path))
 
 from database import SessionLocal, engine
@@ -70,16 +70,13 @@ def seed_database(json_file: str = None, reset: bool = False):
     """Programmatic function to seed database.
     
     Args:
-        json_file: Path to JSON file (default: auto-resolves to data/seed_users.json)
+        json_file: Path to JSON file (default: auto-resolves to ../data/seed_users.json)
         reset: Whether to drop and recreate tables before seeding
     """
     # Auto-resolve JSON file path if not provided
     if json_file is None:
-        # Try to find the JSON file from project root
+        # We're in backend/scripts/, so data is at ../data/seed_users.json
         json_path = Path(__file__).resolve().parent.parent / "data" / "seed_users.json"
-        if not json_path.exists():
-            # Fallback to relative path
-            json_path = Path(__file__).resolve().parent / ".." / "data" / "seed_users.json"
     else:
         json_path = Path(json_file)
     
@@ -122,8 +119,8 @@ def main():
     parser.add_argument(
         "--json-file",
         type=str,
-        default="../data/seed_users.json",
-        help="Path to JSON file containing user data (default: ../data/seed_users.json)",
+        default="../../data/seed_users.json",
+        help="Path to JSON file containing user data (default: ../../data/seed_users.json)",
     )
     parser.add_argument(
         "--reset",

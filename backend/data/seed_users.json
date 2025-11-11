@@ -1,0 +1,57 @@
+[
+  {
+    "email": "advertiser1@example.com",
+    "password": "password123",
+    "full_name": "Alice Advertiser",
+    "role": "advertiser"
+  },
+  {
+    "email": "advertiser2@example.com",
+    "password": "password123",
+    "full_name": "Bob Brand",
+    "role": "advertiser"
+  },
+  {
+    "email": "advertiser3@example.com",
+    "password": "password123",
+    "full_name": "Carol Campaign",
+    "role": "advertiser"
+  },
+  {
+    "email": "manager1@example.com",
+    "password": "password123",
+    "full_name": "David Manager",
+    "role": "campaign_manager"
+  },
+  {
+    "email": "manager2@example.com",
+    "password": "password123",
+    "full_name": "Emma Editor",
+    "role": "campaign_manager"
+  },
+  {
+    "email": "support@example.com",
+    "password": "password123",
+    "full_name": "Frank Support",
+    "role": "tech_support"
+  },
+  {
+    "email": "victor+techsupport@gmail.com",
+    "password": "abc123",
+    "full_name": "Victor Goico",
+    "role": "tech_support"
+  },
+  {
+    "email": "victor+manager@gmail.com",
+    "password": "abc123",
+    "full_name": "Victor Goico",
+    "role": "campaign_manager"
+  },
+  {
+    "email": "victor+advertiser@gmail.com",
+    "password": "abc123",
+    "full_name": "Victor Goico",
+    "role": "advertiser"
+  }
+]
+

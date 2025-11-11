@@ -16,17 +16,9 @@ echo "✓ Migrations complete"
 # -----------------------------------------------------------------------------
 echo ""
 echo "Step 2: Seeding database..."
-python -c "
-import sys
-sys.path.insert(0, '..')
-from scripts.seed_database import seed_database
-
-print('Running seed script...')
-seed_database()
-print('✓ Seed complete')
-"
+python scripts/seed_database.py
 # -----------------------------------------------------------------------------
-# TO DISABLE SEEDING: Comment out lines 16-25 above after first successful deploy
+# TO DISABLE SEEDING: Comment out lines 14-19 above after first successful deploy
 
 # Start the application
 echo ""
