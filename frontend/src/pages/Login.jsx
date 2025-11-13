@@ -43,7 +43,24 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-stone-50 to-stone-100 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-stone-50 to-stone-100 p-4">
+      {/* Logo and Title Section */}
+      <div className="mb-8 flex flex-col items-center space-y-4">
+        <div className="flex items-center space-x-4">
+          <img 
+            src="/logo.svg" 
+            alt="Email Advertising Logo" 
+            className="w-16 h-16"
+          />
+          <h1 className="text-3xl font-bold text-stone-900">
+            Email Advertising
+          </h1>
+        </div>
+        <p className="text-lg text-stone-600 text-center max-w-md">
+          AI-accelerated workflow system for creating professional email campaigns
+        </p>
+      </div>
+
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Welcome Back</CardTitle>
